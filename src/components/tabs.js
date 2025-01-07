@@ -9,7 +9,6 @@ const TabsComponent = () => {
 
   return (
     <div>
-      {/* Tabs */}
       <div
         style={{
           display: 'flex',
@@ -57,15 +56,15 @@ const TabsComponent = () => {
         </div>
       </div>
 
-      {/* Linha divisória */}
+      
       <div
         style={{
-          marginTop: '2px', // Espaçamento entre as tabs e a linha
-          width: '70%', // Reduzindo o comprimento da linha
+          marginTop: '2px', 
+          width: '70%', 
           height: '1px', 
-          backgroundColor: '#fff', // Cor da linha
-          opacity: 0.5, // Transparência opcional para um efeito mais suave
-          margin: '0 auto', // Centralizando a linha
+          backgroundColor: '#fff', 
+          opacity: 0.5, 
+          margin: '0 auto', 
         }}
       />
     </div>

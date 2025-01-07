@@ -1,13 +1,14 @@
-import Sidebar from '../components/sidebar';   
-import TabsComponent from '../components/tabs'; 
+import Sidebar from '../components/sidebar';
+import TabsComponent from '../components/tabs';
 import { useState } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaEdit, FaTrash } from 'react-icons/fa';
+import ChartComponent from '../components/grafico_despesas';
+import TabelaComGrafico from '../components/grafico_despesas';
 
 export default function SidebarTestPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5; 
+  const itemsPerPage = 5;
 
- 
   const despesas = [
     { nome: 'Aluguel', valor: 'R$ 1.200', data: '01/01/2023' },
     { nome: 'Energia', valor: 'R$ 150', data: '05/01/2023' },
@@ -18,12 +19,20 @@ export default function SidebarTestPage() {
     { nome: 'Comida', valor: 'R$ 400', data: '22/01/2023' },
   ];
 
- 
+  const dataForChart = [
+    { categoria: 'Aluguel', valor: 1200 },
+    { categoria: 'Energia', valor: 150 },
+    { categoria: 'Internet', valor: 100 },
+    { categoria: 'Água', valor: 80 },
+    { categoria: 'Telefone', valor: 50 },
+    { categoria: 'Gás', valor: 200 },
+    { categoria: 'Comida', valor: 400 },
+  ];
+  
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = despesas.slice(indexOfFirstItem, indexOfLastItem);
 
- 
   const nextPage = () => {
     if (currentPage < Math.ceil(despesas.length / itemsPerPage)) {
       setCurrentPage(currentPage + 1);
@@ -39,74 +48,72 @@ export default function SidebarTestPage() {
   return (
     <div
       style={{
-        backgroundColor: '#000', 
-        height: '100vh', 
-        color: '#fff', 
-        display: 'flex', 
-        flexDirection: 'row', 
-        margin: 0, 
-        padding: 0, 
-        overflow: 'hidden', 
-        width: '100vw', 
-        position: 'absolute', 
-        top: 0, 
-        left: 0, 
+        backgroundColor: '#000',
+        height: '100vh',
+        color: '#fff',
+        display: 'flex',
+        flexDirection: 'row',
+        margin: 0,
+        padding: 0,
+        overflow: 'hidden',
+        width: '100vw',
+        position: 'absolute',
+        top: 0,
+        left: 0,
       }}
     >
       <Sidebar />
 
       <main
         style={{
-          flex: 1, 
+          flex: 1,
           padding: '20px',
           fontFamily: 'Arial, sans-serif',
-          backgroundColor: '#000', 
+          backgroundColor: '#000',
           color: '#fff',
           display: 'flex',
           flexDirection: 'column',
-          margin: 0, 
-          paddingLeft: '20px', 
-          width: 'calc(100vw - 260px)', 
+          margin: 0,
+          paddingLeft: '20px',
+          width: 'calc(100vw - 260px)',
           height: '100vh',
-          overflow: 'hidden', 
+          overflow: 'hidden',
         }}
       >
-        <TabsComponent /> 
+        <TabsComponent />
 
-      
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             marginTop: '100px',
-            width: '100%', 
-            marginLeft: '300px', 
+            width: '100%',
+            marginLeft: '300px',
           }}
         >
           <input
             type="text"
             placeholder="Pesquisar Despesa ..."
             style={{
-              border: '2px solid transparent', 
+              border: '2px solid transparent',
               borderRadius: '25px',
-              padding: '10px 15px', 
-              fontSize: '16px', 
-              width: '400px', 
-              backgroundColor: '#333', 
+              padding: '10px 15px',
+              fontSize: '16px',
+              width: '400px',
+              backgroundColor: '#333',
               color: '#fff',
               outline: 'none',
             }}
           />
-          
-       
+
           <button
             style={{
-              backgroundColor: '#333', 
+              backgroundColor: '#333',
               color: '#fff',
-              border: '2px solid #fff', 
-              borderRadius: '25px', 
-              padding: '10px 20px', 
-              marginLeft: '200px', 
+              border: '2px solid #fff',
+              borderRadius: '25px',
+              padding: '10px 20px',
+              marginLeft: '200px',
               fontSize: '16px',
               cursor: 'pointer',
             }}
@@ -115,45 +122,49 @@ export default function SidebarTestPage() {
           </button>
         </div>
 
-      
         <div
           style={{
-            marginTop: '40px', 
-            width: 'calc(90% - 500px)', 
-            marginLeft: '300px', 
+            marginTop: '40px',
+            width: 'calc(90% - 500px)',
+            marginLeft: '300px',
             borderRadius: '10px',
-            border: '1px solid transparent', 
+            border: '1px solid transparent',
             overflow: 'hidden',
-            backgroundColor: '#333', 
+            backgroundColor: '#333',
           }}
         >
           <h3 style={{ marginLeft: '20px', marginBottom: '30px' }}>Minhas Despesas</h3>
           <table
             style={{
-              width: '100%', 
+              width: '100%',
               borderCollapse: 'collapse',
               color: '#fff',
               fontSize: '16px',
+              textAlign: 'center',
             }}
           >
             <thead>
               <tr>
-                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Despesa</th>
+                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Categoria</th>
                 <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Valor</th>
                 <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Data</th>
+                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Ações</th>
               </tr>
             </thead>
             <tbody>
               {currentItems.map((despesa, index) => (
                 <tr key={index}>
-                  <td style={{ padding: '7px', borderBottom: '1px solid transparent' }}>{despesa.nome}</td>
+                  <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>{despesa.nome}</td>
                   <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>{despesa.valor}</td>
                   <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>{despesa.data}</td>
+                  <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>
+                    <FaEdit style={{ color: 'green', marginRight: '10px', cursor: 'pointer' }} />
+                    <FaTrash style={{ color: 'green', cursor: 'pointer' }} />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          
 
           <div
             style={{
@@ -166,7 +177,7 @@ export default function SidebarTestPage() {
               onClick={prevPage}
               style={{
                 backgroundColor: '#333',
-                color: '#fff',
+                color: 'green', 
                 padding: '10px 15px',
                 marginRight: '10px',
                 cursor: 'pointer',
@@ -178,7 +189,7 @@ export default function SidebarTestPage() {
               onClick={nextPage}
               style={{
                 backgroundColor: '#333',
-                color: '#fff',
+                color: 'green', 
                 padding: '10px 15px',
                 cursor: 'pointer',
               }}
