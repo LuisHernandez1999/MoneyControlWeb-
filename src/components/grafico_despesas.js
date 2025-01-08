@@ -1,57 +1,30 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const TabelaComGrafico = ({ data }) => {
-  const dataForChart = [
-    { categoria: 'Aluguel', valor: 1200 },
-    { categoria: 'Energia', valor: 150 },
-    { categoria: 'Internet', valor: 100 },
-    { categoria: 'Água', valor: 80 },
-    { categoria: 'Telefone', valor: 50 },
-    { categoria: 'Gás', valor: 200 },
-    { categoria: 'Comida', valor: 400 },
-  ];
-
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        padding: '20px',
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f5f5f5',
-        height: '100vh',
-        alignItems: 'center',
-      }}
-    >
-      <table
-        style={{
-          width: '80%',
-          borderCollapse: 'collapse',
-          backgroundColor: '#fff',
-          border: '1px solid #ccc',
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+    <div style={{ backgroundColor: '#333', borderRadius: '10px', padding: '20px' }}>
+      <h3 style={{ color: '#fff', marginBottom: '20px' }}>Despesas por Categoria</h3>
+      <BarChart
+        width={800}
+        height={500}
+        data={data}
+        margin={{
+          top: 20,
+          right: 30,
+          left: 20,
+          bottom: 5,
         }}
       >
-        <tbody>
-          <tr>
-            <td colSpan="3" style={{ padding: '20px' }}>
-              <div style={{ width: '100%', height: '300px' }}>
-                <ResponsiveContainer>
-                  <BarChart data={dataForChart}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="categoria" />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="valor" fill="#8884d8" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="categoria" stroke="#fff" />
+        <YAxis stroke="#fff" />
+        <Tooltip contentStyle={{ backgroundColor: '#555', borderRadius: '10px', color: '#fff' }} />
+        <Legend wrapperStyle={{ color: '#fff' }} />
+        <Bar dataKey="valor" fill="#ff0000" /> 
+      </BarChart>
     </div>
   );
 };
+
 export default TabelaComGrafico;

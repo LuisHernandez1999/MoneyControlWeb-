@@ -2,7 +2,6 @@ import Sidebar from '../components/sidebar';
 import TabsComponent from '../components/tabs';
 import { useState } from 'react';
 import { FaChevronLeft, FaChevronRight, FaEdit, FaTrash } from 'react-icons/fa';
-import ChartComponent from '../components/grafico_despesas';
 import TabelaComGrafico from '../components/grafico_despesas';
 
 export default function SidebarTestPage() {
@@ -49,14 +48,14 @@ export default function SidebarTestPage() {
     <div
       style={{
         backgroundColor: '#000',
-        height: '100vh',
+        height: '240vh', 
+        width: '100vw', 
         color: '#fff',
         display: 'flex',
         flexDirection: 'row',
         margin: 0,
         padding: 0,
         overflow: 'hidden',
-        width: '100vw',
         position: 'absolute',
         top: 0,
         left: 0,
@@ -77,34 +76,75 @@ export default function SidebarTestPage() {
           paddingLeft: '20px',
           width: 'calc(100vw - 260px)',
           height: '100vh',
-          overflow: 'hidden',
+
         }}
       >
         <TabsComponent />
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: '20px',
+            marginLeft: '300px',
+            marginRight: '300px',
+            marginTop: '50px',
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              marginRight: '10px',
+              backgroundColor: '#333',
+              borderRadius: '15px',
+              padding: '20px',
+              textAlign: 'center',
+              color: '#fff',
+            }}
+          >
+            <h4 style={{ color: 'red' }}>Total de Despesas</h4>
+            <p style={{ fontSize: '24px', margin: 0, color: 'red' }}>R$ 2.180</p>
+          </div>
+          <div
+            style={{
+              flex: 1,
+              marginLeft: '10px',
+              backgroundColor: '#333',
+              borderRadius: '15px',
+              padding: '20px',
+              textAlign: 'center',
+              color: '#fff',
+              
+            }}
+          >
+           <h4 style={{ color: '#32CD32' }}>Guardado</h4>   
+           <p style={{ fontSize: '24px', margin: 0, color: '#32CD32' }}>R$ 16000.00</p> 
+          </div>
+        </div>
+
 
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            marginTop: '100px',
+            marginTop: '50px',
             width: '100%',
             marginLeft: '300px',
           }}
         >
-          <input
-            type="text"
-            placeholder="Pesquisar Despesa ..."
-            style={{
-              border: '2px solid transparent',
-              borderRadius: '25px',
-              padding: '10px 15px',
-              fontSize: '16px',
-              width: '400px',
-              backgroundColor: '#333',
-              color: '#fff',
-              outline: 'none',
-            }}
-          />
+        <input
+        type="text"
+        placeholder="Pesquisar Despesa ..."
+        style={{
+        border: '2px solid green',
+        borderRadius: '25px',
+        padding: '10px 15px',
+        fontSize: '16px',
+        width: '400px',
+        backgroundColor: '#333',
+        color: '#fff',
+        outline: 'none',
+        }}
+        />
 
           <button
             style={{
@@ -113,7 +153,7 @@ export default function SidebarTestPage() {
               border: '2px solid #fff',
               borderRadius: '25px',
               padding: '10px 20px',
-              marginLeft: '200px',
+              marginLeft: '220px',
               fontSize: '16px',
               cursor: 'pointer',
             }}
@@ -125,12 +165,13 @@ export default function SidebarTestPage() {
         <div
           style={{
             marginTop: '40px',
-            width: 'calc(90% - 500px)',
+            width: 'calc(90% - 450px)',
             marginLeft: '300px',
             borderRadius: '10px',
             border: '1px solid transparent',
-            overflow: 'hidden',
+            overflow: 'visible', 
             backgroundColor: '#333',
+
           }}
         >
           <h3 style={{ marginLeft: '20px', marginBottom: '30px' }}>Minhas Despesas</h3>
@@ -197,6 +238,19 @@ export default function SidebarTestPage() {
               <FaChevronRight />
             </button>
           </div>
+        </div>
+        <div
+          style={{
+            marginTop: '40px',
+            marginLeft: '300px', 
+            width: 'calc(90% - 490px)', 
+            backgroundColor: '#333',
+            padding: '20px',
+            borderRadius: '10px',
+          }}
+        >
+          <h3 style={{ color: '#fff', marginBottom: '20px' }}>Gráfico de Despesas</h3>
+          <TabelaComGrafico data={dataForChart} />
         </div>
       </main>
     </div>
