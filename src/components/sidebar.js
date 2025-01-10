@@ -1,4 +1,4 @@
-import React, { useState } from "react"; 
+import React, { useState } from "react";  
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, IconButton } from "@mui/material"; 
 import MenuIcon from "@mui/icons-material/Menu"; 
 import DashboardIcon from "@mui/icons-material/Dashboard"; 
@@ -20,7 +20,6 @@ const Sidebar = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-    
       <IconButton
         onClick={toggleDrawer}
         sx={{
@@ -35,7 +34,6 @@ const Sidebar = () => {
         <MenuIcon sx={{ fontSize: "inherit" }} />
       </IconButton>
 
-     
       <Drawer
         anchor="left"
         open={isOpen}
@@ -53,10 +51,34 @@ const Sidebar = () => {
         }}
       >
         <Box sx={{ height: "100%", display: "flex", flexDirection: "column" }}>
-        
-          <Box sx={{ flex: "0 0 auto", height: 250 }} />
+          {/* Imagem no topo com margem superior ajustada */}
+          <Box
+            sx={{
+              flex: "0 0 auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: 100,
+              padding: 2,
+              marginTop: 10, // Margem superior reduzida
+              backgroundColor: "#2c2c2c", 
+            }}
+          >
+            <img
+              src="/imagens/logomoneydefi.png"
+              alt="Logo"
+              style={{
+                width: "150px", // Largura aumentada
+                height: "auto", // Altura proporcional
+                objectFit: "contain",
+              }}
+            />
+          </Box>
 
-         
+          {/* Espaço adicional antes dos itens do menu */}
+          <Box sx={{ flex: "0 0 auto", height: 40 }} />
+
+          {/* Lista de itens do menu */}
           <List>
             {menuItems.map((item, index) => (
               <ListItem key={index} disablePadding>

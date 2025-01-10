@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
+
+
 const TabelaComGrafico = ({ data }) => {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // Garante que o código só será executado no cliente
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null; // Impede a renderização do componente no lado do servidor
+  }
   return (
     <div style={{ backgroundColor: '#333', borderRadius: '10px', padding: '20px' }}>
       <h3 style={{ color: '#fff', marginBottom: '20px' }}>Despesas por Categoria</h3>
