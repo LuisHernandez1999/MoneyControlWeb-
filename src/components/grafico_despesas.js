@@ -7,12 +7,12 @@ const TabelaComGrafico = ({ data }) => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Garante que o código só será executado no cliente
+    
     setIsClient(true);
   }, []);
 
   if (!isClient) {
-    return null; // Impede a renderização do componente no lado do servidor
+    return null; 
   }
   return (
     <div style={{ backgroundColor: '#333', borderRadius: '10px', padding: '20px' }}>
