@@ -1,258 +1,334 @@
-import Sidebar from '../components/sidebar';
-import TabsComponent from '../components/tabs';
-import { useState } from 'react';
-import { FaChevronLeft, FaChevronRight, FaEdit, FaTrash } from 'react-icons/fa';
-import TabelaComGrafico from '../components/grafico_despesas';
+import React, { useState, useEffect } from 'react';
+import {
+  Box,
+  Card,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  TextField,
+  Button,
+  TablePagination,
+  InputAdornment,
+} from '@mui/material';
+import Sidebar from '../../components/sidebar';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import TabsComponent from '@/components/tabs';
 
-export default function SidebarTestPage() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+import { useRouter } from 'next/router';
 
-  const despesas = [
-    { nome: 'Aluguel', valor: 'R$ 1.200', data: '01/01/2023' },
-    { nome: 'Energia', valor: 'R$ 150', data: '05/01/2023' },
-    { nome: 'Internet', valor: 'R$ 100', data: '10/01/2023' },
-    { nome: 'Água', valor: 'R$ 80', data: '12/01/2023' },
-    { nome: 'Telefone', valor: 'R$ 50', data: '15/01/2023' },
-    { nome: 'Gás', valor: 'R$ 200', data: '20/01/2023' },
-    { nome: 'Comida', valor: 'R$ 400', data: '22/01/2023' },
-  ];
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 
-  const dataForChart = [
-    { categoria: 'Aluguel', valor: 1200 },
-    { categoria: 'Energia', valor: 150 },
-    { categoria: 'Internet', valor: 100 },
-    { categoria: 'Água', valor: 80 },
-    { categoria: 'Telefone', valor: 50 },
-    { categoria: 'Gás', valor: 200 },
-    { categoria: 'Comida', valor: 400 },
-  ];
-  
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = despesas.slice(indexOfFirstItem, indexOfLastItem);
+const BASE_URL = 'http://localhost:8080/api/fornecedoras';
 
-  const nextPage = () => {
-    if (currentPage < Math.ceil(despesas.length / itemsPerPage)) {
-      setCurrentPage(currentPage + 1);
+const FornecedoresPage = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [fornecedores, setFornecedores] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [search, setSearch] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchFornecedores = async () => {
+      try {
+        const response = await axios.get(BASE_URL);
+        setFornecedores(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar fornecedores:', error.message);
+      }
+    };
+    fetchFornecedores();
+  }, []);
+
+  const deleteFornecedora = async (id, values) => {
+    try {
+      const formData = new FormData();
+      formData.append(
+        "fornecedora",
+        JSON.stringify({
+          id,
+          nome: values.nome,
+          contato: values.contato,
+          endereco: values.endereco,
+          chavePix: values.chavePix,
+        })
+      );
+      const response = await axios.post(`${BASE_URL}/delete`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log('Fornecedor deletado com sucesso:', response.data);
+      setFornecedores((prev) => prev.filter((fornecedora) => fornecedora.id !== id));
+      alert('Fornecedor deletado com sucesso!');
+    } catch (error) {
+      console.error("Erro ao deletar fornecedor:", error);
+      alert('Erro ao deletar fornecedor.');
     }
   };
 
-  const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleNavigateToRegister = () => {
+    if (router) {
+      router.push('./cadastro_fornecedores');
     }
   };
+
+  const handleEditNavigation = (id) => {
+    router.push(`./editar_fornecedores?id=${id}`);
+  };
+
+  const handleNavigation = () => {
+    router.push('./visualizar_fornecedor');
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
+  const handleExportToExcel = () => {
+    console.log('Exportando fornecedores:', fornecedores);
+
+    const headers = ['Nome', 'Contato', 'Endereço', 'Chave Pix'];
+
+    const dataForExport = fornecedores.length > 0
+      ? fornecedores.map((fornecedora) => ({
+          Nome: fornecedora.nome || 'N/A',
+          Contato: fornecedora.contato || 'N/A',
+          Endereço: fornecedora.endereco || 'N/A',
+          'Chave Pix': fornecedora.chavePix || 'N/A',
+        }))
+      : [{ Nome: 'N/A', Contato: 'N/A', Endereço: 'N/A', 'Chave Pix': 'N/A' }];
+
+    const sheetData = [headers, ...dataForExport.map(item => Object.values(item))];
+
+    const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Fornecedores');
+    XLSX.writeFile(workbook, 'fornecedores.xlsx');
+  };
+
+  const filteredFornecedores = fornecedores.filter((fornecedora) => {
+    return fornecedora.nome.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
-    <div
-      style={{
-        backgroundColor: '#000',
-        height: '240vh', 
-        width: '100vw', 
-        color: '#fff',
-        display: 'flex',
-        flexDirection: 'row',
-        margin: 0,
-        padding: 0,
-        overflow: 'hidden',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-      }}
-    >
+    <Box sx={{ display: 'flex', backgroundColor: 'white', minHeight: '100vh' }}>
       <Sidebar />
-
-      <main
-        style={{
+      <Box
+        sx={{
           flex: 1,
-          padding: '20px',
-          fontFamily: 'Arial, sans-serif',
-          backgroundColor: '#000',
-          color: '#fff',
-          display: 'flex',
-          flexDirection: 'column',
-          margin: 0,
-          paddingLeft: '20px',
-          width: 'calc(100vw - 260px)',
-          height: '100vh',
-
+          marginLeft: '290px',
+          maxHeight: '100vh',
+          width:'600px',
+          height:'2200px', 
+          backgroundColor: 'white',
+          paddingTop: '3rem',
+          
         }}
       >
-        <TabsComponent />
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '20px',
-            marginLeft: '300px',
-            marginRight: '300px',
-            marginTop: '50px',
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              marginRight: '10px',
-              backgroundColor: '#333',
-              borderRadius: '15px',
+        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px' }}>
+          <TabsComponent />
+        </Box>
+
+        {/* Adicionando os cards espaçados abaixo das abas */}
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+          <Card
+            sx={{
+              width: '44%',
               padding: '20px',
-              textAlign: 'center',
-              color: '#fff',
-            }}
-          >
-            <h4 style={{ color: 'red' }}>Total de Despesas</h4>
-            <p style={{ fontSize: '24px', margin: 0, color: 'red' }}>R$ 2.180</p>
-          </div>
-          <div
-            style={{
-              flex: 1,
-              marginLeft: '10px',
-              backgroundColor: '#333',
-              borderRadius: '15px',
-              padding: '20px',
-              textAlign: 'center',
-              color: '#fff',
-              
-            }}
-          >
-           <h4 style={{ color: '#32CD32' }}>Guardado</h4>   
-           <p style={{ fontSize: '24px', margin: 0, color: '#32CD32' }}>R$ 16000.00</p> 
-          </div>
-        </div>
-
-
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            marginTop: '50px',
-            width: '100%',
-            marginLeft: '300px',
-          }}
-        >
-        <input
-        type="text"
-        placeholder="Pesquisar Despesa ..."
-        style={{
-        border: '2px solid green',
-        borderRadius: '25px',
-        padding: '10px 15px',
-        fontSize: '16px',
-        width: '400px',
-        backgroundColor: '#333',
-        color: '#fff',
-        outline: 'none',
-        }}
-        />
-
-          <button
-            style={{
-              backgroundColor: '#333',
-              color: '#fff',
-              border: '2px solid #fff',
+              backgroundColor: 'white',
+              boxShadow: 1,
               borderRadius: '25px',
-              padding: '10px 20px',
-              marginLeft: '220px',
-              fontSize: '16px',
-              cursor: 'pointer',
+              border: '2px solid #E0E0E0'
             }}
           >
-            Adicionar Despesa
-          </button>
-        </div>
-
-        <div
-          style={{
-            marginTop: '40px',
-            width: 'calc(90% - 450px)',
-            marginLeft: '300px',
-            borderRadius: '10px',
-            border: '1px solid transparent',
-            overflow: 'visible', 
-            backgroundColor: '#333',
-
-          }}
-        >
-          <h3 style={{ marginLeft: '20px', marginBottom: '30px' }}>Minhas Despesas</h3>
-          <table
-            style={{
-              width: '100%',
-              borderCollapse: 'collapse',
-              color: '#fff',
-              fontSize: '16px',
-              textAlign: 'center',
+            <Typography variant="h6" sx={{ marginBottom: '20px' }}>
+              Card 1
+            </Typography>
+            <Typography variant="body1">
+              Conteúdo do Card 1
+            </Typography>
+          </Card>
+          <Card
+            sx={{
+              width: '44%',
+              padding: '20px',
+              backgroundColor: 'white',
+              boxShadow: 1,
+              borderRadius: '25px',
+              border: '2px solid #E0E0E0'
             }}
           >
-            <thead>
-              <tr>
-                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Categoria</th>
-                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Valor</th>
-                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Data</th>
-                <th style={{ padding: '10px', borderBottom: '2px solid transparent' }}>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((despesa, index) => (
-                <tr key={index}>
-                  <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>{despesa.nome}</td>
-                  <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>{despesa.valor}</td>
-                  <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>{despesa.data}</td>
-                  <td style={{ padding: '10px', borderBottom: '1px solid transparent' }}>
-                    <FaEdit style={{ color: 'green', marginRight: '10px', cursor: 'pointer' }} />
-                    <FaTrash style={{ color: 'green', cursor: 'pointer' }} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+            <Typography variant="h6" sx={{ marginBottom: '20px' }}>
+              Card 2
+            </Typography>
+            <Typography variant="body1">
+              Conteúdo do Card 2
+            </Typography>
+          </Card>
+        </Box>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '20px',
-            }}
-          >
-            <button
-              onClick={prevPage}
-              style={{
-                backgroundColor: '#333',
-                color: 'green', 
-                padding: '10px 15px',
-                marginRight: '10px',
-                cursor: 'pointer',
-              }}
-            >
-              <FaChevronLeft />
-            </button>
-            <button
-              onClick={nextPage}
-              style={{
-                backgroundColor: '#333',
-                color: 'green', 
-                padding: '10px 15px',
-                cursor: 'pointer',
-              }}
-            >
-              <FaChevronRight />
-            </button>
-          </div>
-        </div>
-        <div
-          style={{
-            marginTop: '40px',
-            marginLeft: '300px', 
-            width: 'calc(90% - 490px)', 
-            backgroundColor: '#333',
+        <Card
+          sx={{
             padding: '20px',
-            borderRadius: '10px',
+            bgcolor: 'white',
+            boxShadow: 1,
+            borderRadius: '25px',
+            width: '95%',
+            margin: '0 auto',
+            border: '2px solid #B0B0B0',
+            marginTop: '200px',
           }}
         >
-          <h3 style={{ color: '#fff', marginBottom: '20px' }}>Gráfico de Despesas</h3>
-          <TabelaComGrafico data={dataForChart} />
-        </div>
-      </main>
-    </div>
+          <Typography variant="h5" sx={{ marginBottom: '40px', fontWeight: 'tine',fontSize:'22px' }}>
+            Minhas Despesas
+          </Typography>
+
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <TextField
+              label="Pesquisar fornecedor"
+              variant="outlined"
+              size="small"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              sx={{
+                width: '50%',
+                '& .MuiOutlinedInput-root': {
+                  borderRadius: '25px',
+                  backgroundColor: '#FFFFFF',
+                  color: '#000000',
+                  '& fieldset': {
+                    borderColor: '#CCCCCC',
+                  },
+                  '&:hover fieldset': {
+                    borderColor: '#00509E',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#00509E',
+                  },
+                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                },
+                '& .MuiInputBase-input': {
+                  color: '#000000',
+                },
+                '& .MuiInputLabel-root': {
+                  color: '#000000',
+                },
+                '& .MuiInputLabel-root.Mui-focused': {
+                  color: '#00509E',
+                },
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchOutlinedIcon sx={{ color: '#00509E' }} />
+                  </InputAdornment>
+                ),
+              }}
+            />
+            <Button
+              sx={{
+                backgroundColor: '#81C784',
+                color: 'white',
+                border: '2px solid #81C784',
+                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                fontWeight: 'normal',
+                fontSize: '15px',
+                borderRadius: '60px',
+                padding: '10px 0',
+                width: '170px',
+                height: '40px',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#f1f1f1',
+                },
+              }}
+              onClick={handleNavigateToRegister}
+            >
+              Cadastrar Despesas
+            </Button>
+          </Box>
+
+          <TableContainer sx={{ maxHeight: 'calc(100vh - 250px)', width: '100%' }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <strong>Categoria</strong>
+                  </TableCell>
+                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <strong>Data</strong>
+                  </TableCell>
+                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <strong>Valor</strong>
+                  </TableCell>
+                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>Ações</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredFornecedores
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((fornecedora) => (
+                    <TableRow key={fornecedora.id}>
+                      <TableCell>{fornecedora.nome}</TableCell>
+                      <TableCell>{fornecedora.contato}</TableCell>
+                      <TableCell>{fornecedora.endereco}</TableCell>
+                      <TableCell>{fornecedora.chavePix}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={handleNavigation}
+                          sx={{ marginRight: 1, color: '#00509E' }}
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleEditNavigation(fornecedora.id)}
+                          sx={{ marginRight: 1, color: '#00509E' }}
+                        >
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => deleteFornecedora(fornecedora.id)}
+                          sx={{ color: '#00509E' }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            component="div"
+            count={filteredFornecedores.length}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            rowsPerPageOptions={[5, 10, 25]}
+          />
+        </Card>
+      </Box>
+    </Box>
   );
-}
+};
+
+export default FornecedoresPage;

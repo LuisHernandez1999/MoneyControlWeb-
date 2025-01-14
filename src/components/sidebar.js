@@ -1,149 +1,76 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-  TextField,
-  InputAdornment,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined"; // Ícone moderno de gráficos
+import React from 'react';
+import { Box, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
+import { AiOutlineBarChart, AiOutlineUser, AiOutlineFileText } from 'react-icons/ai'; // Novos ícones
+import { useRouter } from 'next/router';
 
-const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
+export default function Sidebar() {
+    const router = useRouter();
 
-  const toggleDrawer = () => {
-    setIsOpen(!isOpen);
-  };
+    const handleNavigation = (path) => {
+        router.push(path);
+    };
 
-  const menuItems = [
-    { text: "Início", icon: <HomeOutlinedIcon sx={{ fontSize: "2rem" }} /> },
-    { text: "Configurações", icon: <SettingsOutlinedIcon sx={{ fontSize: "2rem" }} /> },
-    { text: "Análises", icon: <BarChartOutlinedIcon sx={{ fontSize: "2rem" }} /> }, // Substituindo o Analytics
-  ];
-
-  return (
-    <Box sx={{ display: "flex" }}>
-      <IconButton
-        onClick={toggleDrawer}
-        sx={{
-          position: "fixed",
-          top: 16,
-          left: 16,
-          zIndex: 1201,
-          color: isOpen ? "#fff" : "#1DB954",
-          fontSize: "2rem",
-        }}
-      >
-        <MenuIcon sx={{ fontSize: "inherit" }} />
-      </IconButton>
-
-      <Drawer
-        anchor="left"
-        open={isOpen}
-        onClose={toggleDrawer}
-        variant="temporary"
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: isOpen ? 240 : 60,
-            transition: "width 0.3s ease-in-out",
-            overflowX: "hidden",
-            backgroundColor: "#2c2c2c",
-            color: "#fff",
-            height: "100vh",
-          },
-        }}
-      >
+    return (
         <Box
-          sx={{
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            paddingTop: 10, // Jogando tudo mais para baixo
-          }}
-        >
-          {/* Barra de Pesquisa */}
-          <Box
             sx={{
-              flex: "0 0 auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 0.5,
-              marginTop: 6, // Jogando a barra de pesquisa ainda mais para baixo
-              backgroundColor: "#2c2c2c",
+                width: '200px', // Ajuste a largura conforme necessário
+                height: '100vh',
+                backgroundColor: '#333',
+                color: '#FFFFFF',
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                padding: '1rem',
+                overflowY: 'auto',
+                zIndex: 1000, // Garantir que a sidebar fique sobre outros componentes
             }}
-          >
-            <TextField
-              variant="outlined"
-              size="small"
-              placeholder="Buscar..."
-              sx={{
-                width: isOpen ? "80%" : 0,
-                transition: "width 0.3s ease-in-out",
-                visibility: isOpen ? "visible" : "hidden",
-                color: "#fff",
-                backgroundColor: "#3a3a3a",
-                borderRadius: 2,
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon sx={{ color: "#fff" }} />
-                  </InputAdornment>
-                ),
-                style: { color: "#fff" },
-              }}
-            />
-          </Box>
+        >
 
-          {/* Lista de Ícones e Textos */}
-          <List sx={{ marginTop: 8 }}> {/* Jogando os ícones ainda mais para baixo */}
-            {menuItems.map((item, index) => (
-              <ListItem key={index} disablePadding>
-                <ListItemButton
-                  sx={{
-                    justifyContent: isOpen ? "flex-start" : "center",
-                    px: 2,
-                    mb: 3, // Espaçamento maior entre os ícones
-                    "&:hover": {
-                      backgroundColor: "#1DB954",
-                    },
-                    "&.Mui-selected": {
-                      backgroundColor: "#1DB954",
-                    },
-                  }}
-                >
-                  <ListItemIcon
+            <List sx={{ flexGrow: 1, marginTop: '2rem' }}>
+                <ListItem
+                    button
                     sx={{
-                      minWidth: 0,
-                      mr: isOpen ? 2 : "auto",
-                      justifyContent: "center",
-                      color: "#fff",
-                      "&:hover": {
-                        color: "#fff",
-                      },
+                        marginBottom: '0.5rem', // Ajuste o espaçamento conforme necessário
+                        paddingLeft: '0.5rem', // Reduza o padding
                     }}
-                  >
-                    {item.icon}
-                  </ListItemIcon>
-                  {isOpen && <ListItemText primary={item.text} />}
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-      </Drawer>
-    </Box>
-  );
-};
+                    onClick={() => handleNavigation('/estatisticas')}
+                >
+                    <ListItemIcon sx={{ marginTop: '10px' }}>
+                        <AiOutlineBarChart color="#FFFFFF" size={32} />
+                    </ListItemIcon>
+                    <ListItemText primary="Estatísticas" sx={{ color: '#FFFFFF' }} />
+                </ListItem>
 
-export default Sidebar;
+                <ListItem
+                    button
+                    sx={{
+                        marginBottom: '0.5rem',
+                        paddingLeft: '0.5rem',
+                    }}
+                    onClick={() => handleNavigation('/perfil')}
+                >
+                    <ListItemIcon sx={{ marginTop: '10px' }}>
+                        <AiOutlineUser color="#FFFFFF" size={32} />
+                    </ListItemIcon>
+                    <ListItemText primary="Perfil" sx={{ color: '#FFFFFF' }} />
+                </ListItem>
+
+                <ListItem
+                    button
+                    sx={{
+                        marginBottom: '0.5rem',
+                        paddingLeft: '0.5rem',
+                    }}
+                    onClick={() => handleNavigation('/resumo')}
+                >
+                    <ListItemIcon sx={{ marginTop: '10px' }}>
+                        <AiOutlineFileText color="#FFFFFF" size={32} />
+                    </ListItemIcon>
+                    <ListItemText primary="Resumo" sx={{ color: '#FFFFFF' }} />
+                </ListItem>
+            </List>
+        </Box>
+    );
+}
