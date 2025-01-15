@@ -332,6 +332,7 @@ const FornecedoresPage = () => {
     padding: '20px',
     backgroundColor: 'white',
     boxShadow: 1,
+    
     borderRadius: '25px',
     border: '2px solid #E0E0E0',
     marginTop: '50px',

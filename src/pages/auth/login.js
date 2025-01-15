@@ -1,59 +1,12 @@
-import Head from 'next/head';  
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useState } from 'react';
-import { Box, Typography, Button, TextField } from '@mui/material';
-import { useRouter } from 'next/router';
+import Head from 'next/head';   
+import { Box, TextField, Button, Typography } from '@mui/material';
+import Image from 'next/image'; // Importando o componente de imagem do Next.js
 
 const ResetPassword = () => {
-    const [setInvalidEmail] = useState('');
-    const router = useRouter();
-
-    
-
-    const handleSubmit = (event) => {
-        event.preventDefault(); 
-        router.push('/fornecedores/fornecedores_tabela');
-    };
-
-    const formik = useFormik({
-        initialValues: {
-            email: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            email: Yup.string()
-                .email('Email inválido')
-                .required('Email é obrigatório')
-                .matches(
-                    /^[\w._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|outlook\.com)$/,
-                    'O e-mail deve ser de um dos domínios permitidos: gmail.com, hotmail.com, yahoo.com, outlook.com'
-                ),
-            password: Yup.string()
-                .required('Senha é obrigatória')
-                .min(8, 'A senha deve ter pelo menos 8 caracteres'),
-        }),
-        onSubmit: async (values) => {
-            setInvalidEmail('');
-            try {
-                const resetPasswordConfirmUrl = buildResetPasswordConfirmUrl(values.email);
-                console.log('URL de confirmação:', resetPasswordConfirmUrl);
-                alert('E-mail de redefinição de senha enviado com sucesso!');
-            } catch (error) {
-                console.error('Erro ao enviar o e-mail:', error);
-                formik.setErrors({ submit: 'Ocorreu um erro ao enviar o e-mail. Tente novamente.' });
-                setInvalidEmail(values.email);
-            }
-        },
-        validateOnChange: false,
-        validateOnBlur: true,
-    });
-
     return (
         <>
             <Head>
                 <title>login</title>
-                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet" />
             </Head>
             <Box
                 sx={{
@@ -70,10 +23,10 @@ const ResetPassword = () => {
             >
                 <Box
                     sx={{
-                        backgroundImage: 'url(/imagens/bak.png)',
-                        backgroundSize: 'cover', // Ajusta para cobrir todo o contêiner
-                        backgroundRepeat: 'no-repeat', // Evita repetição
-                        backgroundPosition: 'center', // Centraliza a imagem
+                        backgroundImage: 'url(/imagens/BACKMONEY.jpg)',
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
                         position: 'absolute',
                         top: 0,
                         left: 0,
@@ -83,171 +36,168 @@ const ResetPassword = () => {
                         minHeight: '100vh',
                     }}
                 />
-
                 <Box 
                     sx={{
-                     
-                        padding: '2rem', 
-                      
-                       
-                      
-                        maxWidth: '480px',
-                        maxHeight: '510px', 
-                        width: '100%',
-                        textAlign: 'center',
+                        display: 'flex',
+                        width: '70%',
+                        height: '70vh',
                         zIndex: 1,
-                      
+                        border: '1px solid rgba(0, 0, 0, 0.1)', 
+                        borderRadius: '12px',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
                     }}
                 >
-                    <Box sx={{ marginBottom: '0.5rem' }}>
-                        <img src="/imagens/moneylogo2.png" alt="Logo" style={{ width: '225px' }} />
-                    </Box>
-                    <Typography
-                        variant="h6"
+                   
+                    <Box
                         sx={{
-                            marginBottom: '0.5rem', 
-                            color: 'black',
-                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                            
-                            fontSize:'14px',
+                            backgroundColor: 'black',
+                            flex: 1,
+                            borderRadius: '12px 0 0 12px', 
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'column',
+                            paddingTop: '4rem', 
                         }}
                     >
-                      Entre seu email e senha
-                    </Typography>
 
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            marginBottom: '1.4rem', 
-                            color: '#1DB954',
-                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                            fontWeight: 'bold',
-                            fontSize:'32px',
-                        }}
-                    >
-                       Virtual Money Vault  
-                    </Typography>
-                    
-
-                    <form onSubmit={handleSubmit}>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                marginTop: '0.5rem',
-                            }}
-                        >
-                            {/* Campo de E-mail */}
-                            <TextField
-                                label="E-mail"
-                                type="email"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                sx={{
-                                    marginBottom: '1rem',
-                                    border: '2px solid black',
-                                    backgroundColor: '#f9f9f9',
-                                    borderRadius: '25px',
-                                    '& .MuiOutlinedInput-root': {
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: 'transparent', 
-                                        },
-                                    },
-                                }}
-                                value={formik.values.email}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                name="email"
+                        <Box sx={{ marginBottom: '1rem' }}>
+                            <Image 
+                                src="/imagens/moneylogo2.png" 
+                                alt="Logo"
+                                width={250} 
+                                height={250} // Ajuste o tamanho conforme necessário
                             />
-
-                            {/* Campo de Senha */}
-                            <TextField
-                                label="Senha"
-                                type="password"
-                                variant="outlined"
-                                size="small"
-                                fullWidth
-                                sx={{
-                                    marginBottom: '1rem',
-                                    border: '2px solid black',
-                                    backgroundColor: '#f9f9f9',
-                                    borderRadius: '25px',
-                                    
-                                }}
-                                value={formik.values.password}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                name="password"
-                            />
-
-<Button
-    type="submit"
-    sx={{
-        width: '80%',
-        padding: '0.5rem 1rem',
-        color: 'white', // Cor do texto
-        fontSize: '15px', // Tamanho da fonte
-        borderRadius: '25px',
-        fontWeight: 'bold', // Tornar o texto mais destacado
-        textTransform: 'none',
-        
-        backgroundColor: 'black', // Fundo preto
-        '&:hover': {
-            backgroundColor: '#333', // Tom mais claro de preto ao passar o mouse
-        },
-    }}
->
-    Entrar
-</Button>
                         </Box>
-                    </form>
 
-                    <Box 
-    sx={{
-        marginTop: '0.9rem', // Margem superior geral
-        textAlign: 'center',
-    }}
->
-    <Typography
-        variant="body2"
-        sx={{
-            fontSize: '1rem',
-             // Fonte aumentada
-            color: 'black',
-            marginBottom: '0.5rem', // Espaçamento entre os textos
-        }}
-    >
-        Esqueceu a senha?
-    </Typography>
-    <Typography
-        variant="body2"
-        sx={{
-            fontSize: '1rem', // Fonte aumentada
-            color: 'black',
-           
-        }}
-    >
-        Cadastre-se
-    </Typography>
-</Box>
-                    {formik.errors.submit && (
+                     
                         <Typography
-                            color="error"
+                            variant="body1"
                             sx={{
-                                mt: 3,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center',
+                                fontSize: '16px',
                                 textAlign: 'center',
+                                color: 'white',
+                                marginTop: '1rem', // Ajuste no espaçamento
+                                margin: '1.5rem',
+                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                lineHeight: 1.8, // Melhorando a legibilidade
                             }}
-                            variant="body2"
                         >
-                            {formik.errors.submit}
+                            O Money Vault pode te ajudar a ter um maior controle do seu dinheiro através de análises detalhadas,
+                            te ajudando a entender seus gastos, planejar suas finanças .
                         </Typography>
-                    )}
+                    </Box>
+              
+                    <Box
+                        sx={{
+                            backgroundColor: 'white',
+                            flex: 1,
+                            borderRadius: '0 12px 12px 0',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-start',
+                            alignItems: 'center',
+                            paddingTop: '9rem', 
+                        }}
+                    >
+                   
+                       
+
+                      
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                marginBottom: '2rem', 
+                                color: '#1DB954',
+                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                fontWeight: 'bold',
+                                fontSize: '35px',
+                            }}
+                        >
+                            Virtual Money Vault
+                        </Typography>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                marginBottom: '1rem', 
+                                color: 'black',
+                                fontFamily: "'Plus Jakarta Sans', sans-serif",
+                                fontSize: '14px',
+                            }}
+                        >
+                            Entre seu email e senha
+                        </Typography>
+
+                     
+                        <TextField
+                            label="E-mail"
+                            type="email"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            sx={{
+                                marginBottom: '1.5rem', 
+                                width: '85%',
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '25px',
+                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', 
+                                },
+                            }}
+                        />
+
+                      
+                        <TextField
+                            label="Senha"
+                            type="password"
+                            variant="outlined"
+                            size="small"
+                            fullWidth
+                            sx={{
+                                marginBottom: '1.5rem', 
+                                width: '85%',
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '25px',
+                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', 
+                                },
+                            }}
+                        />
+
+                     
+                        <Button
+                            variant="contained"
+                            sx={{
+                                width: '20%',
+                                padding: '0.2rem 1rem', 
+                                height: '40px', 
+                                color: 'white',
+                                backgroundColor: 'black',
+                                fontSize: '14px',
+                                borderRadius: '25px',
+                                '&:hover': {
+                                    backgroundColor: '#333',
+                                },
+                            }}
+                        >
+                            Entrar
+                        </Button>
+
+                       
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontSize: '1rem',
+                                color: 'black',
+                                marginTop: '0.9rem', 
+                                textDecoration: 'underline',
+                                cursor: 'pointer',
+                                '&:hover': {
+                                    color: 'gray',
+                                },
+                            }}
+                        >
+                           Cadastrar-se
+                        </Typography>
+                    </Box>
                 </Box>
             </Box>
         </>
