@@ -23,7 +23,7 @@ const ResetPassword = () => {
             >
                 <Box
                     sx={{
-                        backgroundImage: 'url(/imagens/BACKMONEY.jpg)',
+                        backgroundImage: 'url(/imagens/bak.png)',
                         backgroundSize: 'cover',
                         backgroundRepeat: 'no-repeat',
                         backgroundPosition: 'center',
@@ -47,7 +47,7 @@ const ResetPassword = () => {
                         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
                     }}
                 >
-                   
+                    {/* Lado esquerdo com imagem */}
                     <Box
                         sx={{
                             backgroundColor: 'black',
@@ -58,36 +58,29 @@ const ResetPassword = () => {
                             alignItems: 'center',
                             flexDirection: 'column',
                             paddingTop: '4rem', 
+                            position: 'relative', // Posicionando o conteúdo dentro do Box
+                            width: '100%', // Garantindo que o Box ocupe toda a largura
+                            height: '87.5%', // Garantindo que o Box ocupe toda a altura
                         }}
                     >
-
-                        <Box sx={{ marginBottom: '1rem' }}>
+                        {/* Imagem que ocupará todo o espaço */}
+                        <Box sx={{ 
+                            position: 'absolute', 
+                            top: 0, 
+                            left: 0, 
+                            right: 0, 
+                            bottom: 0 
+                        }}>
                             <Image 
-                                src="/imagens/moneylogo2.png" 
+                                src="/imagens/money3.jpg" // Caminho da imagem
                                 alt="Logo"
-                                width={250} 
-                                height={250} // Ajuste o tamanho conforme necessário
+                                layout="fill" // Preenche toda a área disponível
+                                objectFit="cover" // Faz a imagem cobrir toda a área
                             />
                         </Box>
-
-                     
-                        <Typography
-                            variant="body1"
-                            sx={{
-                                fontSize: '16px',
-                                textAlign: 'center',
-                                color: 'white',
-                                marginTop: '1rem', // Ajuste no espaçamento
-                                margin: '1.5rem',
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                lineHeight: 1.8, // Melhorando a legibilidade
-                            }}
-                        >
-                            O Money Vault pode te ajudar a ter um maior controle do seu dinheiro através de análises detalhadas,
-                            te ajudando a entender seus gastos, planejar suas finanças .
-                        </Typography>
                     </Box>
-              
+                    
+                    {/* Lado direito branco com inputs */}
                     <Box
                         sx={{
                             backgroundColor: 'white',
@@ -100,10 +93,7 @@ const ResetPassword = () => {
                             paddingTop: '9rem', 
                         }}
                     >
-                   
                        
-
-                      
                         <Typography
                             variant="h6"
                             sx={{
@@ -116,19 +106,7 @@ const ResetPassword = () => {
                         >
                             Virtual Money Vault
                         </Typography>
-                        <Typography
-                            variant="h6"
-                            sx={{
-                                marginBottom: '1rem', 
-                                color: 'black',
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                fontSize: '14px',
-                            }}
-                        >
-                            Entre seu email e senha
-                        </Typography>
 
-                     
                         <TextField
                             label="E-mail"
                             type="email"
@@ -145,7 +123,6 @@ const ResetPassword = () => {
                             }}
                         />
 
-                      
                         <TextField
                             label="Senha"
                             type="password"
@@ -162,7 +139,6 @@ const ResetPassword = () => {
                             }}
                         />
 
-                     
                         <Button
                             variant="contained"
                             sx={{
@@ -181,7 +157,6 @@ const ResetPassword = () => {
                             Entrar
                         </Button>
 
-                       
                         <Typography
                             variant="body2"
                             sx={{
