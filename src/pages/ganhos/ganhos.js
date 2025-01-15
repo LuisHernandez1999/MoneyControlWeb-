@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import TabsComponent from '@/components/tabs';
+import ExpenseChart from '../../components/grafico_despesas';
 
 import { useRouter } from 'next/router';
 
@@ -135,7 +136,7 @@ const FornecedoresPage = () => {
         sx={{
           flex: 1,
           marginLeft: '290px',
-          maxHeight: '100vh',
+          maxHeight: '200vh',
           width:'600px',
           height:'2200px', 
           backgroundColor: 'white',
@@ -193,15 +194,15 @@ const FornecedoresPage = () => {
             borderRadius: '25px',
             width: '95%',
             margin: '0 auto',
-            border: '2px solid #B0B0B0',
-            marginTop: '200px',
+            border: '2px solid #E0E0E0',
+            marginTop: '50px',
           }}
         >
-          <Typography variant="h5" sx={{ marginBottom: '40px', fontWeight: 'tine',fontSize:'22px' }}>
+          <Typography variant="h5" sx={{ marginBottom: '40px', fontWeight: 'bold',fontSize:'25px' }}>
             Minhas Despesas
           </Typography>
 
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', }}>
             <TextField
               label="Pesquisar fornecedor"
               variant="outlined"
@@ -238,16 +239,16 @@ const FornecedoresPage = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <SearchOutlinedIcon sx={{ color: '#00509E' }} />
+                    <SearchOutlinedIcon sx={{ color: 'green' }} />
                   </InputAdornment>
                 ),
               }}
             />
             <Button
               sx={{
-                backgroundColor: '#81C784',
+                backgroundColor: 'black',
                 color: 'white',
-                border: '2px solid #81C784',
+                border: '2px solid #333',
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
                 fontWeight: 'normal',
                 fontSize: '15px',
@@ -326,6 +327,21 @@ const FornecedoresPage = () => {
             rowsPerPageOptions={[5, 10, 25]}
           />
         </Card>
+        <Card
+  sx={{
+    padding: '20px',
+    backgroundColor: 'white',
+    boxShadow: 1,
+    borderRadius: '25px',
+    border: '2px solid #E0E0E0',
+    marginTop: '50px',
+  }}
+>
+  <Typography variant="h5" sx={{ marginBottom: '20px', fontWeight: 'bold',fontSize:'25px' }}>
+    Gráfico de Despesas
+  </Typography>
+  <ExpenseChart />
+</Card>
       </Box>
     </Box>
   );
