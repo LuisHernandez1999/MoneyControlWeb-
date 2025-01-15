@@ -6,12 +6,10 @@ import { Box, Typography, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 
 const ResetPassword = () => {
-    const [invalidEmail, setInvalidEmail] = useState('');
+    const [setInvalidEmail] = useState('');
     const router = useRouter();
 
-    const buildResetPasswordConfirmUrl = (email) => {
-        return `/${CONST_NAME_PAGE.AUTH}/${CONST_NAME_PAGE.RESET_PASSWORD}/${encodeURIComponent(email)}`;
-    };
+    
 
     const handleSubmit = (event) => {
         event.preventDefault(); 
@@ -72,48 +70,64 @@ const ResetPassword = () => {
             >
                 <Box
                     sx={{
-                        backgroundImage: 'url(/imagens/BACKMONEY.jpg)',
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center center',
+                        backgroundImage: 'url(/imagens/bak.png)',
+                        backgroundSize: 'cover', // Ajusta para cobrir todo o contêiner
+                        backgroundRepeat: 'no-repeat', // Evita repetição
+                        backgroundPosition: 'center', // Centraliza a imagem
                         position: 'absolute',
                         top: 0,
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        filter: 'blur(8px)',
                         zIndex: 0,
+                        minHeight: '100vh',
                     }}
                 />
 
                 <Box 
                     sx={{
-                        backgroundColor: '#333', 
+                     
                         padding: '2rem', 
-                        borderRadius: '16px',
-                        border: '1px solid rgba(0, 0, 0, 0.2)',
-                        boxShadow: '0 4px 6px rgba(0, 158, 13, 0.8)',
-                        maxWidth: '400px', 
+                      
+                       
+                      
+                        maxWidth: '480px',
+                        maxHeight: '510px', 
                         width: '100%',
                         textAlign: 'center',
                         zIndex: 1,
-                        backdropFilter: 'blur(10px)', 
+                      
                     }}
                 >
-                    <Box sx={{ marginBottom: '1rem' }}>
-                        <img src="/imagens/bbdefin.png" alt="Logo" style={{ width: '200px' }} />
+                    <Box sx={{ marginBottom: '0.5rem' }}>
+                        <img src="/imagens/moneylogo2.png" alt="Logo" style={{ width: '225px' }} />
                     </Box>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            marginBottom: '0.5rem', 
+                            color: 'black',
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            
+                            fontSize:'14px',
+                        }}
+                    >
+                      Entre seu email e senha
+                    </Typography>
 
                     <Typography
                         variant="h6"
                         sx={{
-                            marginBottom: '1rem', 
-                            color: '#333',
+                            marginBottom: '1.4rem', 
+                            color: '#1DB954',
                             fontFamily: "'Plus Jakarta Sans', sans-serif",
                             fontWeight: 'bold',
+                            fontSize:'32px',
                         }}
                     >
-                        Brechó da Jujuba
+                       Virtual Money Vault  
                     </Typography>
+                    
 
                     <form onSubmit={handleSubmit}>
                         <Box
@@ -133,6 +147,7 @@ const ResetPassword = () => {
                                 fullWidth
                                 sx={{
                                     marginBottom: '1rem',
+                                    border: '2px solid black',
                                     backgroundColor: '#f9f9f9',
                                     borderRadius: '25px',
                                     '& .MuiOutlinedInput-root': {
@@ -156,13 +171,10 @@ const ResetPassword = () => {
                                 fullWidth
                                 sx={{
                                     marginBottom: '1rem',
+                                    border: '2px solid black',
                                     backgroundColor: '#f9f9f9',
                                     borderRadius: '25px',
-                                    '& .MuiOutlinedInput-root': {
-                                        '&.Mui-focused fieldset': {
-                                            borderColor: 'transparent', 
-                                        },
-                                    },
+                                    
                                 }}
                                 value={formik.values.password}
                                 onChange={formik.handleChange}
@@ -170,44 +182,56 @@ const ResetPassword = () => {
                                 name="password"
                             />
 
-                            <Button
-                                type="submit"
-                                sx={{
-                                    width: '100%',
-                                    padding: '0.5rem 1rem',
-                                    color: 'WHITE',
-                                    borderRadius: '8px',
-                                    fontSize: '1rem',
-                                    fontWeight: 'bold',
-                                    textTransform: 'none',
-                                    '&:hover': {
-                                        backgroundColor: '#333',
-                                    },
-                                }}
-                            >
-                                Entrar
-                            </Button>
+<Button
+    type="submit"
+    sx={{
+        width: '80%',
+        padding: '0.5rem 1rem',
+        color: 'white', // Cor do texto
+        fontSize: '15px', // Tamanho da fonte
+        borderRadius: '25px',
+        fontWeight: 'bold', // Tornar o texto mais destacado
+        textTransform: 'none',
+        
+        backgroundColor: 'black', // Fundo preto
+        '&:hover': {
+            backgroundColor: '#333', // Tom mais claro de preto ao passar o mouse
+        },
+    }}
+>
+    Entrar
+</Button>
                         </Box>
                     </form>
 
-                    <Box
-                        sx={{
-                            marginTop: '0.1rem',
-                            textAlign: 'center',
-                        }}
-                    >
-                        <Typography
-                            variant="body2"
-                            sx={{
-                                fontSize: '0.875rem',
-                                color: 'green',
-                                textDecoration: 'underline',
-                            }}
-                        >
-                            Esqueceu a senha?
-                        </Typography>
-                    </Box>
-
+                    <Box 
+    sx={{
+        marginTop: '0.9rem', // Margem superior geral
+        textAlign: 'center',
+    }}
+>
+    <Typography
+        variant="body2"
+        sx={{
+            fontSize: '1rem',
+             // Fonte aumentada
+            color: 'black',
+            marginBottom: '0.5rem', // Espaçamento entre os textos
+        }}
+    >
+        Esqueceu a senha?
+    </Typography>
+    <Typography
+        variant="body2"
+        sx={{
+            fontSize: '1rem', // Fonte aumentada
+            color: 'black',
+           
+        }}
+    >
+        Cadastre-se
+    </Typography>
+</Box>
                     {formik.errors.submit && (
                         <Typography
                             color="error"
