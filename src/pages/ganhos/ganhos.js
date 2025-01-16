@@ -130,26 +130,25 @@ const FornecedoresPage = () => {
   });
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: 'white', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
       <Sidebar />
       <Box
         sx={{
           flex: 1,
           marginLeft: '290px',
           maxHeight: '200vh',
-          width:'600px',
           height:'2200px', 
-          backgroundColor: 'white',
+          backgroundColor: '#f9f9f9',
           paddingTop: '3rem',
           
         }}
       >
-        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px' }}>
+        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px',backgroundColor: '#f9f9f9', }}>
           <TabsComponent />
         </Box>
 
         {/* Adicionando os cards espaçados abaixo das abas */}
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px',backgroundColor: '#f9f9f9', }}>
           <Card
             sx={{
               width: '44%',
@@ -160,7 +159,7 @@ const FornecedoresPage = () => {
               border: '2px solid #E0E0E0'
             }}
           >
-            <Typography variant="h6" sx={{ marginBottom: '20px' }}>
+            <Typography variant="h6" sx={{ marginBottom: '20px', }}>
               Card 1
             </Typography>
             <Typography variant="body1">

@@ -23,7 +23,7 @@ export default function Sidebar() {
                 top: 0,
                 left: 0,
                 padding: '1rem',
-                overflowY: 'auto',
+               
                 zIndex: 1000, // Garantir que a sidebar fique sobre outros componentes
             }}
         >
