@@ -1,12 +1,59 @@
-import Head from 'next/head';   
-import { Box, TextField, Button, Typography } from '@mui/material';
-import Image from 'next/image'; // Importando o componente de imagem do Next.js
+import Head from 'next/head';  
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useState } from 'react';
+import { Box, Typography, Button, TextField } from '@mui/material';
+import { useRouter } from 'next/router';
 
 const ResetPassword = () => {
+    const [setInvalidEmail] = useState('');
+    const router = useRouter();
+
+    
+
+    const handleSubmit = (event) => {
+        event.preventDefault(); 
+        router.push('/fornecedores/fornecedores_tabela');
+    };
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: Yup.object({
+            email: Yup.string()
+                .email('Email inválido')
+                .required('Email é obrigatório')
+                .matches(
+                    /^[\w._%+-]+@(gmail\.com|hotmail\.com|yahoo\.com|outlook\.com)$/,
+                    'O e-mail deve ser de um dos domínios permitidos: gmail.com, hotmail.com, yahoo.com, outlook.com'
+                ),
+            password: Yup.string()
+                .required('Senha é obrigatória')
+                .min(8, 'A senha deve ter pelo menos 8 caracteres'),
+        }),
+        onSubmit: async (values) => {
+            setInvalidEmail('');
+            try {
+                const resetPasswordConfirmUrl = buildResetPasswordConfirmUrl(values.email);
+                console.log('URL de confirmação:', resetPasswordConfirmUrl);
+                alert('E-mail de redefinição de senha enviado com sucesso!');
+            } catch (error) {
+                console.error('Erro ao enviar o e-mail:', error);
+                formik.setErrors({ submit: 'Ocorreu um erro ao enviar o e-mail. Tente novamente.' });
+                setInvalidEmail(values.email);
+            }
+        },
+        validateOnChange: false,
+        validateOnBlur: true,
+    });
+
     return (
         <>
             <Head>
                 <title>login</title>
+                <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap" rel="stylesheet" />
             </Head>
             <Box
                 sx={{
@@ -23,10 +70,10 @@ const ResetPassword = () => {
             >
                 <Box
                     sx={{
-                        backgroundColor: '#f0f0f0', // Fundo cinza claro
-                        backgroundSize: 'cover',
-                        backgroundRepeat: 'no-repeat',
-                        backgroundPosition: 'center',
+                        backgroundImage: 'url(/imagens/bak.png)',
+                        backgroundSize: 'cover', // Ajusta para cobrir todo o contêiner
+                        backgroundRepeat: 'no-repeat', // Evita repetição
+                        backgroundPosition: 'center', // Centraliza a imagem
                         position: 'absolute',
                         top: 0,
                         left: 0,
@@ -36,187 +83,167 @@ const ResetPassword = () => {
                         minHeight: '100vh',
                     }}
                 />
+
                 <Box 
                     sx={{
-                        display: 'flex',
-                        width: '70%',
-                        height: '70vh',
+                        padding: '2rem',
+                        maxWidth: '480px',
+                        maxHeight: '550px', 
+                        width: '100%',
+                        textAlign: 'center',
                         zIndex: 1,
-                        border: '1px solid rgba(0, 0, 0, 0.1)', 
-                        borderRadius: '24px',
-                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)', 
+                      
                     }}
                 >
-                    {/* Lado esquerdo com imagem */}
-                    <Box
+                    <Box sx={{ marginBottom: '0.5rem' }}>
+                        <img src="/imagens/moneylogo2.png" alt="Logo" style={{ width: '225px' }} />
+                    </Box>
+                    <Typography
+                        variant="h6"
                         sx={{
-                            backgroundColor: '#333',
-                            flex: 1,
-                            borderRadius: '24px 0 0 24px', 
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'column',
-                            paddingTop: '4rem', 
-                            position: 'relative', // Posicionando o conteúdo dentro do Box
-                            width: '100%', // Garantindo que o Box ocupe toda a largura
-                            height: '87.5%', // Garantindo que o Box ocupe toda a altura
+                            marginBottom: '0.5rem', 
+                            color: 'black',
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            
+                            fontSize:'14px',
                         }}
                     >
-                        {/* Imagem que ocupará todo o espaço */}
-                        <Box sx={{ 
-                            position: 'absolute', 
-                            top: 0, 
-                            left: 0, 
-                            right: 0, 
-                            bottom: 0 
-                        }}>
-                            <Image 
-                                src="/imagens/img5.png" // Caminho da imagem
-                                alt="Logo"
-                                layout="fill" // Preenche toda a área disponível
-                                objectFit="cover" // Faz a imagem cobrir toda a área
-                            />
-                              <Box
-        sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fundo preto semitransparente
-            backdropFilter: 'blur(2px)', // Reduzido o desfoque
-            borderRadius: '12px 0 0 12px',// Mesmo arredondamento do container
-        }}
-    />
-     <Typography
-        variant="h4"
-        sx={{
-            position: 'relative', // Para manter sobre o blur
-            color: 'white',
-            fontWeight: 'bold',
-            zIndex: 2, // Para garantir que o texto fique acima do blur
-            textAlign: 'center',
-            padding: '1rem',
-            textShadow: '0px 0px 10px rgba(0, 0, 0, 1)', // Adiciona um leve contorno ao texto
-            paddingTop: '14rem', 
-        }}
-    >
-        Bem-vindo ao Virtual Money Vault, alcance o controle do seu dinheiro 
-    </Typography>
+                      Entre seu email e senha
+                    </Typography>
 
-                        </Box>
-                    </Box>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            marginBottom: '1.4rem', 
+                            color: '#1DB954',
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            fontWeight: 'bold',
+                            fontSize:'32px',
+                        }}
+                    >
+                       Virtual Money Vault  
+                    </Typography>
                     
-                    {/* Lado direito branco com inputs */}
-                    <Box
-                        sx={{
-                            backgroundColor: 'white',
-                            flex: 1,
-                            borderRadius: '0 12px 12px 0',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'flex-start',
-                            alignItems: 'center',
-                            paddingTop: '3rem', 
-                        }}
-                    >
+
+                    <form onSubmit={handleSubmit}>
                         <Box
+                            sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                marginTop: '0.5rem',
+                            }}
+                        >
+                            {/* Campo de E-mail */}
+                            <TextField
+                                label="E-mail"
+                                type="email"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                sx={{
+                                    marginBottom: '1rem',
+                                    border: '2px solid black',
+                                    backgroundColor: '#f9f9f9',
+                                    borderRadius: '25px',
+                                    '& .MuiOutlinedInput-root': {
+                                        '&.Mui-focused fieldset': {
+                                            borderColor: 'transparent', 
+                                        },
+                                    },
+                                }}
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                name="email"
+                            />
+
+                            {/* Campo de Senha */}
+                            <TextField
+                                label="Senha"
+                                type="password"
+                                variant="outlined"
+                                size="small"
+                                fullWidth
+                                sx={{
+                                    marginBottom: '1rem',
+                                    border: '2px solid black',
+                                    backgroundColor: '#f9f9f9',
+                                    borderRadius: '25px',
+                                    
+                                }}
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                name="password"
+                            />
+
+<Button
+    type="submit"
+    sx={{
+        width: '80%',
+        padding: '0.5rem 1rem',
+        color: 'white', // Cor do texto
+        fontSize: '15px', // Tamanho da fonte
+        borderRadius: '25px',
+        fontWeight: 'bold', // Tornar o texto mais destacado
+        textTransform: 'none',
+        
+        backgroundColor: 'black', // Fundo preto
+        '&:hover': {
+            backgroundColor: '#333', // Tom mais claro de preto ao passar o mouse
+        },
+    }}
+>
+    Entrar
+</Button>
+                        </Box>
+                    </form>
+
+                    <Box 
+    sx={{
+        marginTop: '0.9rem', // Margem superior geral
+        textAlign: 'center',
+    }}
+>
+    <Typography
+        variant="body2"
         sx={{
-            position: 'relative',
-            width: 200, // Largura do logotipo
-            height: 190, // Altura do logotipo
-            marginBottom: '1rem', // Espaço entre o logotipo e o texto
+            fontSize: '1rem',
+             // Fonte aumentada
+            color: 'black',
+            marginBottom: '0.5rem', // Espaçamento entre os textos
         }}
     >
-        <Image
-            src="/imagens/moneylogo2.png" // Caminho da imagem do logotipo
-            alt="Logotipo"
-            layout="fill" // Faz a imagem ocupar toda a área do contêiner
-            objectFit="cover" // Ajusta a imagem para cobrir o contêiner
-        />
-    </Box>
-                       
+        Esqueceu a senha?
+    </Typography>
+    <Typography
+        variant="body2"
+        sx={{
+            fontSize: '1rem', // Fonte aumentada
+            color: 'black',
+           
+        }}
+    >
+        Cadastre-se
+    </Typography>
+</Box>
+                    {formik.errors.submit && (
                         <Typography
-                            variant="h6"
+                            color="error"
                             sx={{
-                                marginBottom: '2rem', 
-                                color: '#black',
-                                fontFamily: "'Plus Jakarta Sans', sans-serif",
-                                fontWeight: 'bold',
-                                fontSize: '35px',
+                                mt: 3,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                textAlign: 'center',
                             }}
-                        >
-                            Virtual Money Vault
-                        </Typography>
-
-                        <TextField
-                            label="E-mail"
-                            type="email"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            sx={{
-                                marginBottom: '1.5rem', 
-                                width: '85%',
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '25px',
-                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', 
-                                },
-                            }}
-                        />
-
-                        <TextField
-                            label="Senha"
-                            type="password"
-                            variant="outlined"
-                            size="small"
-                            fullWidth
-                            sx={{
-                                marginBottom: '1.5rem', 
-                                width: '85%',
-                                '& .MuiOutlinedInput-root': {
-                                    borderRadius: '25px',
-                                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)', 
-                                },
-                            }}
-                        />
-
-                        <Button
-                            variant="contained"
-                            sx={{
-                                width: '17%',
-                                padding: '0.2rem 1rem', 
-                                height: '40px', 
-                                color: 'black',
-                                border: '2px solid black',
-                                backgroundColor: 'white',
-                                fontSize: '14px',
-                                borderRadius: '25px',
-                                '&:hover': {
-                                    backgroundColor: '#333',
-                                },
-                            }}
-                        >
-                            Entrar
-                        </Button>
-
-                        <Typography
                             variant="body2"
-                            sx={{
-                                fontSize: '1rem',
-                                color: 'black',
-                                marginTop: '0.9rem', 
-                               
-                                cursor: 'pointer',
-                                '&:hover': {
-                                    color: 'gray',
-                                },
-                            }}
                         >
-                           Cadastrar-se
+                            {formik.errors.submit}
                         </Typography>
-                    </Box>
+                    )}
                 </Box>
             </Box>
         </>
