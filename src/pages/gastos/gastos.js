@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import TabsComponent from '@/components/tabs';
-import  EarningsChart from '../../components/grafico_rendas';
+import ExpenseChart from '../../components/grafico_rendas';
 
 import { useRouter } from 'next/router';
 
@@ -37,7 +37,7 @@ const FornecedoresPage = () => {
   const [search, setSearch] = useState('');
   const router = useRouter();
   
-  
+
   useEffect(() => {
     const fetchFornecedores = async () => {
       try {
@@ -178,11 +178,11 @@ const FornecedoresPage = () => {
               
             }}
           >
-            <Typography variant="h6" sx={{ marginBottom: '2px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'#1DB954'}}>
-               Ganhos
+            <Typography variant="h6" sx={{ marginBottom: '2px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'red'}}>
+               Gastos 
             </Typography>
-            <Typography variant="body1"sx={{ marginBottom: '2px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'#1DB954'}}>
-              3.500
+            <Typography variant="body1"sx={{ marginBottom: '2px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'red'}}>
+              2.500
             </Typography>
           </Card>
         </Box>
@@ -200,12 +200,12 @@ const FornecedoresPage = () => {
           }}
         >
           <Typography variant="h5" sx={{ marginBottom: '40px', fontWeight: 'bold',fontSize:'25px' }}>
-            Minhas Ganhos
+            Minhas Despesas
           </Typography>
 
           <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', }}>
             <TextField
-              label="Pesquisar ganhos"
+              label="Pesquisar gasto"
               variant="outlined"
               size="small"
               value={search}
@@ -264,7 +264,7 @@ const FornecedoresPage = () => {
               }}
               onClick={handleNavigateToRegister}
             >
-              Cadastrar Ganho
+              Cadastrar Despesas
             </Button>
           </Box>
 
@@ -340,9 +340,9 @@ const FornecedoresPage = () => {
   }}
 >
   <Typography variant="h5" sx={{ marginBottom: '20px', fontWeight: 'bold',fontSize:'25px' }}>
-    Gráfico de Ganhos
+    Gráfico de Despesas
   </Typography>
-  < EarningsChart />
+  <ExpenseChart />
 </Card>
       </Box>
     </Box>
