@@ -182,7 +182,7 @@ const FornecedoresPage = () => {
           <Card
             sx={{
               width: '40%',
-              padding: '20px',
+              padding: '40px',
               backgroundColor: 'white',
               boxShadow: 1,
               borderRadius: '25px',
@@ -215,48 +215,55 @@ const FornecedoresPage = () => {
             Minhas Despesas
           </Typography>
 
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', }}>
-            <TextField
-              label="Pesquisar gasto"
-              variant="outlined"
-              size="small"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              sx={{
-                width: '50%',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '25px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#000000',
-                  '& fieldset': {
-                    borderColor: '#CCCCCC',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#00509E',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#00509E',
-                  },
-                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                },
-                '& .MuiInputBase-input': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: '#00509E',
-                },
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchOutlinedIcon sx={{ color: 'green' }} />
-                  </InputAdornment>
-                ),
-              }}
-            />
+          <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: "20px",
+      }}
+    >
+      <TextField
+        label="Pesquisar gasto"
+        variant="outlined"
+        size="small"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        sx={{
+          width: '40%', // Diminuímos o comprimento da barra de pesquisa
+          marginLeft: '100px', // Adicionamos o deslocamento para a direita
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '25px',
+            backgroundColor: '#FFFFFF',
+            color: '#000000',
+            '& fieldset': {
+              border: '2px solid #333',  // Borda preta
+            },
+            '&:hover fieldset': {
+              borderColor: 'black',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: 'black',
+            },
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+          },
+          '& .MuiInputBase-input': {
+            color: '#000000',
+          },
+          '& .MuiInputLabel-root': {
+            color: '#000000',
+          },
+          '& .MuiInputLabel-root.Mui-focused': {
+            color: 'black',
+          },
+        }}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchOutlinedIcon sx={{ color: 'black' }} />
+            </InputAdornment>
+          ),
+        }}
+      />
             <Button
               sx={{
                 backgroundColor: 'black',
@@ -273,6 +280,7 @@ const FornecedoresPage = () => {
                 '&:hover': {
                   backgroundColor: '#f1f1f1',
                 },
+                marginRight: '90px',
               }}
               onClick={handleNavigateToRegister}
             >

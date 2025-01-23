@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BarChart, Bar, Tooltip, Legend, XAxis, YAxis, CartesianGrid, Cell } from "recharts";
-import { Box, FormControl, Select, MenuItem } from "@mui/material";
+import { Box, FormControl, Select, MenuItem, Button } from "@mui/material";
 
 const ExpenseChart = () => {
   const [category, setCategory] = useState("");
@@ -36,24 +36,35 @@ const ExpenseChart = () => {
         width: "80%",
         margin: "0 auto",
         marginTop: "50px",
-       
       }}
     >
-
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "flex-start",  // Alinha os filtros à esquerda
           marginBottom: "20px",
-          
+          gap: "40px", // Ajuste do espaçamento entre os filtros e o botão
         }}
       >
-        <FormControl sx={{ width: "30%", height: "38px", }}>
+        <FormControl sx={{ width: "30%", height: "38px" }}>
           <Select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             displayEmpty
-            sx={{ height: "35px" }} 
+            sx={{
+              height: "35px",
+              borderRadius: '25px',
+              border: '2px solid black',  // Aplica a borda preta
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove o campo de borda adicional
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove a borda ao passar o mouse
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove a borda no foco
+              },
+            }}
           >
             <MenuItem value="">Categoria</MenuItem>
             <MenuItem value="Alimentação">Alimentação</MenuItem>
@@ -68,7 +79,20 @@ const ExpenseChart = () => {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             displayEmpty
-            sx={{ height: "35px" }} 
+            sx={{
+              height: "35px",
+              borderRadius: '25px',
+              border: '2px solid black',  // Aplica a borda preta
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove o campo de borda adicional
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove a borda ao passar o mouse
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove a borda no foco
+              },
+            }}
           >
             <MenuItem value="">Data</MenuItem>
             <MenuItem value="Este mês">Este mês</MenuItem>
@@ -82,7 +106,20 @@ const ExpenseChart = () => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
             displayEmpty
-            sx={{ height: "35px" }} 
+            sx={{
+              height: "35px",
+              borderRadius: '25px',
+              border: '2px solid black',  // Aplica a borda preta
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove o campo de borda adicional
+              },
+              '&:hover .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove a borda ao passar o mouse
+              },
+              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                border: 'none', // Remove a borda no foco
+              },
+            }}
           >
             <MenuItem value="">Valores</MenuItem>
             <MenuItem value="Menor que R$500">Menor que R$500</MenuItem>
@@ -90,9 +127,30 @@ const ExpenseChart = () => {
             <MenuItem value="Maior que R$1000">Maior que R$1000</MenuItem>
           </Select>
         </FormControl>
+
+        <Button
+          sx={{
+            backgroundColor: 'black',
+            color: 'white',
+            border: '2px solid #333',
+            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            fontWeight: 'normal',
+            fontSize: '15px',
+            borderRadius: '60px',
+            padding: '10px 0',
+            width: '130px',
+            height: '40px',
+            textTransform: 'none',
+            '&:hover': {
+              backgroundColor: '#f1f1f1',
+            },
+            marginLeft: '50px',
+          }}
+        >
+          Aplicar
+        </Button>
       </Box>
 
-     
       <Box
         sx={{
           display: "flex",

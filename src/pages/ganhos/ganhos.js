@@ -178,10 +178,10 @@ const FornecedoresPage = () => {
               
             }}
           >
-            <Typography variant="h6" sx={{ marginBottom: '2px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'#1DB954'}}>
+            <Typography variant="h6" sx={{ marginBottom: '8px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'#1DB954'}}>
                Ganhos
             </Typography>
-            <Typography variant="body1"sx={{ marginBottom: '2px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'#1DB954'}}>
+            <Typography variant="body1"sx={{ marginBottom: '8px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'#1DB954'}}>
               3.500
             </Typography>
           </Card>
