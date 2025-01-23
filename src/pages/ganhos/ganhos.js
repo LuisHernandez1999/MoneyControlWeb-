@@ -131,7 +131,7 @@ const FornecedoresPage = () => {
   });
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
+    <Box sx={{ display: 'flex', minHeight: '100vh', }}>
       <Sidebar />
       <Box
         sx={{
@@ -139,17 +139,17 @@ const FornecedoresPage = () => {
           marginLeft: '290px',
           maxHeight: '200vh',
           height:'2200px', 
-          backgroundColor: '#f9f9f9',
+         
           paddingTop: '3rem',
           
         }}
       >
-        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px',backgroundColor: '#f9f9f9', }}>
+        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px',}}>
           <TabsComponent />
         </Box>
 
       
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px',backgroundColor: '#f9f9f9', }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
           <Card
             sx={{
               width: '40%',

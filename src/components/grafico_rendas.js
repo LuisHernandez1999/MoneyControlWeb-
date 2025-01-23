@@ -38,6 +38,7 @@ const EarningsChart = () => {
         width: "80%",
         margin: "0 auto",
         marginTop: "50px",
+        
       }}
     >
 

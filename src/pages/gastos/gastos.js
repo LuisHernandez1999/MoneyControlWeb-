@@ -21,7 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import TabsComponent from '@/components/tabs';
-import ExpenseChart from '../../components/grafico_rendas';
+import ExpenseChart from '../../components/grafico_despesas';
 
 import { useRouter } from 'next/router';
 
@@ -131,25 +131,37 @@ const FornecedoresPage = () => {
   });
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: '#f9f9f9', minHeight: '100vh' }}>
+    <Box sx={{  display: 'flex',
+   
+      minHeight: '100vh', // Garante que o contêiner ocupe no mínimo a altura da tela
+      width: '100%', // Garante que ocupe a largura inteira
+       // Borda vermelha para debug
+      margin: 0,
+      padding: 0, // Remova qualquer padding ou margem
+      overflow: 'hidden', }}>
       <Sidebar />
       <Box
         sx={{
+          
           flex: 1,
           marginLeft: '290px',
-          maxHeight: '200vh',
-          height:'2200px', 
-          backgroundColor: '#f9f9f9',
+          width: '500px',
+          height:'1900px', 
+        
           paddingTop: '3rem',
+          overflowX: 'hidden',
+          overflowY: 'hidden',
+          flexDirection: 'row',
+          
           
         }}
       >
-        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px',backgroundColor: '#f9f9f9', }}>
+        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px', overflowX: 'hidden', }}>
           <TabsComponent />
         </Box>
 
       
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px',backgroundColor: '#f9f9f9', }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
           <Card
             sx={{
               width: '40%',
@@ -193,7 +205,7 @@ const FornecedoresPage = () => {
             bgcolor: 'white',
             boxShadow: 1,
             borderRadius: '25px',
-            width: '95%',
+            width: '96%',
             margin: '0 auto',
             border: '2px solid #E0E0E0',
             marginTop: '50px',

@@ -36,6 +36,7 @@ const ExpenseChart = () => {
         width: "80%",
         margin: "0 auto",
         marginTop: "50px",
+       
       }}
     >
 
@@ -44,6 +45,7 @@ const ExpenseChart = () => {
           display: "flex",
           justifyContent: "space-between",
           marginBottom: "20px",
+          
         }}
       >
         <FormControl sx={{ width: "30%", height: "38px", }}>

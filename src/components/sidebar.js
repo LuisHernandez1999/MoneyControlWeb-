@@ -13,7 +13,7 @@ export default function Sidebar() {
     return (
         <Box
             sx={{
-                width: '200px', // Ajuste a largura conforme necessário
+                width: '240px',
                 height: '100vh',
                 backgroundColor: '#333',
                 color: '#FFFFFF',
@@ -23,8 +23,9 @@ export default function Sidebar() {
                 top: 0,
                 left: 0,
                 padding: '1rem',
+              
                
-                zIndex: 1000, // Garantir que a sidebar fique sobre outros componentes
+                zIndex: 1000, 
             }}
         >
 
