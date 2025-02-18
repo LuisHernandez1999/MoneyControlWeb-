@@ -95,7 +95,7 @@ const ResetPassword = () => {
                       
                     }}
                 >
-                    <Box sx={{marginLeft: '-1rem', marginBottom: '-3rem'  }}>
+                    <Box sx={{marginLeft: '-0.4rem', marginBottom: '-3rem'  }}>
                         <img src="/imagens/lg2.png" alt="Logo" style={{ width: '240px' }} />
                     </Box>
 
