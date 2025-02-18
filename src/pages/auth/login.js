@@ -70,7 +70,7 @@ const ResetPassword = () => {
             >
                 <Box
                     sx={{
-                        backgroundImage: 'url(/imagens/bak.png)',
+                        backgroundImage: 'url(/imagens/bkbk.jpg)',
                         backgroundSize: 'cover', // Ajusta para cobrir todo o contêiner
                         backgroundRepeat: 'no-repeat', // Evita repetição
                         backgroundPosition: 'center', // Centraliza a imagem
@@ -95,33 +95,32 @@ const ResetPassword = () => {
                       
                     }}
                 >
-                    <Box sx={{ marginBottom: '0.5rem' }}>
-                        <img src="/imagens/moneylogo2.png" alt="Logo" style={{ width: '225px' }} />
+                    <Box sx={{marginLeft: '-1rem', marginBottom: '-3rem'  }}>
+                        <img src="/imagens/lg2.png" alt="Logo" style={{ width: '240px' }} />
                     </Box>
-                    <Typography
-                        variant="h6"
-                        sx={{
-                            marginBottom: '0.5rem', 
-                            color: 'black',
-                            fontFamily: "'Plus Jakarta Sans', sans-serif",
-                            
-                            fontSize:'14px',
-                        }}
-                    >
-                      Entre seu email e senha
-                    </Typography>
 
                     <Typography
                         variant="h6"
                         sx={{
-                            marginBottom: '1.4rem', 
-                            color: '#1DB954',
+                            marginBottom: '0.5rem', 
                             fontFamily: "'Plus Jakarta Sans', sans-serif",
                             fontWeight: 'bold',
-                            fontSize:'32px',
+                            fontSize:'35px',
                         }}
                     >
-                       Virtual Money Vault  
+                       Controle Financeiro  
+                    </Typography>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            
+                            color: 'black',
+                            fontFamily: "'Plus Jakarta Sans', sans-serif",
+                            marginBottom: '0.5rem', 
+                            fontSize:'20px',
+                        }}
+                    >
+                      Entre seu email e senha
                     </Typography>
                     
 
@@ -145,7 +144,7 @@ const ResetPassword = () => {
                                     marginBottom: '1rem',
                                     border: '2px solid black',
                                     backgroundColor: '#f9f9f9',
-                                    borderRadius: '25px',
+                                    borderRadius: '15px',
                                     '& .MuiOutlinedInput-root': {
                                         '&.Mui-focused fieldset': {
                                             borderColor: 'transparent', 
@@ -169,7 +168,7 @@ const ResetPassword = () => {
                                     marginBottom: '1rem',
                                     border: '2px solid black',
                                     backgroundColor: '#f9f9f9',
-                                    borderRadius: '25px',
+                                    borderRadius: '15px',
                                     
                                 }}
                                 value={formik.values.password}
@@ -181,11 +180,12 @@ const ResetPassword = () => {
 <Button
     type="submit"
     sx={{
-        width: '80%',
+        width: '70%',
         padding: '0.5rem 1rem',
         color: 'white', // Cor do texto
         fontSize: '15px', // Tamanho da fonte
-        borderRadius: '25px',
+        borderRadius: '50px',
+        marginBottom: '0.8rem',
         fontWeight: 'bold', // Tornar o texto mais destacado
         textTransform: 'none',
         
@@ -197,6 +197,27 @@ const ResetPassword = () => {
 >
     Entrar
 </Button>
+
+<Button
+    type="submit"
+    sx={{
+        width: '40%',
+        padding: '0.5rem 1rem',
+        color: 'black', // Cor do texto
+        fontSize: '15px', // Tamanho da fonte
+        borderRadius: '50px',
+        fontWeight: 'bold', // Tornar o texto mais destacado
+        textTransform: 'none',
+        backgroundColor: 'white',
+        marginBottom: '0.5rem',
+        border: '2px solid black', // Fundo preto
+        '&:hover': {
+            backgroundColor: '#333', // Tom mais claro de preto ao passar o mouse
+        },
+    }}
+>
+    Cadastre-se 
+</Button>
                         </Box>
                     </form>
 
@@ -206,27 +227,6 @@ const ResetPassword = () => {
         textAlign: 'center',
     }}
 >
-    <Typography
-        variant="body2"
-        sx={{
-            fontSize: '1rem',
-             // Fonte aumentada
-            color: 'black',
-            marginBottom: '0.5rem', // Espaçamento entre os textos
-        }}
-    >
-        Esqueceu a senha?
-    </Typography>
-    <Typography
-        variant="body2"
-        sx={{
-            fontSize: '1rem', // Fonte aumentada
-            color: 'black',
-           
-        }}
-    >
-        Cadastre-se
-    </Typography>
 </Box>
                     {formik.errors.submit && (
                         <Typography
