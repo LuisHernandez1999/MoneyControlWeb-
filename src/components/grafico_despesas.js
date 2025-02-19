@@ -46,7 +46,7 @@ const ExpenseChart = () => {
           gap: "40px", // Ajuste do espaçamento entre os filtros e o botão
         }}
       >
-        <FormControl sx={{ width: "30%", height: "38px" }}>
+        <FormControl sx={{ width: "50%", height: "38px" }}>
           <Select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -74,7 +74,7 @@ const ExpenseChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "30%", height: "38px" }}>
+        <FormControl sx={{ width: "50%", height: "38px" }}>
           <Select
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -101,7 +101,7 @@ const ExpenseChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "30%", height: "38px" }}>
+        <FormControl sx={{ width: "50%", height: "50px" }}>
           <Select
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -138,8 +138,8 @@ const ExpenseChart = () => {
             fontSize: '15px',
             borderRadius: '60px',
             padding: '10px 0',
-            width: '130px',
-            height: '40px',
+            width: '230px',
+            height: '50px',
             textTransform: 'none',
             '&:hover': {
               backgroundColor: '#f1f1f1',

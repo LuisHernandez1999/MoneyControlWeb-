@@ -13,7 +13,7 @@ const ResetPassword = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault(); 
-        router.push('/fornecedores/fornecedores_tabela');
+        router.push('/gastos/gastos');
     };
 
     const formik = useFormik({

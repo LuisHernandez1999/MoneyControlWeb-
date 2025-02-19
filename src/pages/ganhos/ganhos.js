@@ -19,7 +19,7 @@ import Sidebar from '../../components/sidebar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+
 import TabsComponent from '@/components/tabs';
 import  EarningsChart from '../../components/grafico_rendas';
 

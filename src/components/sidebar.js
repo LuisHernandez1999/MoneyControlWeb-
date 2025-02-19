@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { AiOutlineBarChart, AiOutlineUser, AiOutlineFileText } from 'react-icons/ai'; // Novos ícones
+import React from 'react'; 
+import { Box, List, ListItem, ListItemIcon, ListItemText, TextField,Typography } from '@mui/material';
+import { AiOutlineUser, AiOutlineAppstoreAdd, AiOutlineDollarCircle, AiOutlineAppstore } from 'react-icons/ai'; // Ícones
 import { useRouter } from 'next/router';
 
 export default function Sidebar() {
@@ -13,9 +13,9 @@ export default function Sidebar() {
     return (
         <Box
             sx={{
-                width: '240px',
+                width: '250px',
                 height: '100vh',
-                backgroundColor: '#333',
+                backgroundColor: 'black',
                 color: '#FFFFFF',
                 display: 'flex',
                 flexDirection: 'column',
@@ -23,53 +23,71 @@ export default function Sidebar() {
                 top: 0,
                 left: 0,
                 padding: '1rem',
-              
-               
                 zIndex: 1000, 
             }}
         >
+              <Typography variant="h6" sx={{  marginTop: '5rem',fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'white'}}>
+              Bem vindo!
+            </Typography>
+            {/* Barra de pesquisa substituindo a logo */}
+            <Box sx={{ marginBottom: '2rem' ,marginTop: '4rem'}}>
+                <TextField
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Pesquisar..."
+                    sx={{
+                        backgroundColor: 'white',
+                        borderRadius: '20px',
+                        '& .MuiInputBase-root': {
+                            height: '40px',
+                        },
+                    }}
+                />
+            </Box>
 
-            <List sx={{ flexGrow: 1, marginTop: '2rem' }}>
+            <List sx={{ flexGrow: 1 }}> 
                 <ListItem
                     button
                     sx={{
-                        marginBottom: '0.5rem', // Ajuste o espaçamento conforme necessário
-                        paddingLeft: '0.5rem', // Reduza o padding
+                        marginBottom: '1rem',
+                        paddingLeft: '1rem',
                     }}
-                    onClick={() => handleNavigation('/estatisticas')}
+                    onClick={() => handleNavigation('../../fornecedores/fornecedores_tabela')}
                 >
                     <ListItemIcon sx={{ marginTop: '10px' }}>
-                        <AiOutlineBarChart color="#FFFFFF" size={32} />
+                        <AiOutlineUser color="white" size={32} /> 
                     </ListItemIcon>
-                    <ListItemText primary="Estatísticas" sx={{ color: '#FFFFFF' }} />
+                    <ListItemText primary="Fornecedores" sx={{ color: 'white' }} />
                 </ListItem>
 
+               
                 <ListItem
                     button
                     sx={{
-                        marginBottom: '0.5rem',
-                        paddingLeft: '0.5rem',
+                        marginBottom: '1rem',
+                        paddingLeft: '1rem',
                     }}
-                    onClick={() => handleNavigation('/perfil')}
+                    onClick={() => handleNavigation('/Caixa')}
                 >
                     <ListItemIcon sx={{ marginTop: '10px' }}>
-                        <AiOutlineUser color="#FFFFFF" size={32} />
+                        <AiOutlineDollarCircle color="white" size={32} /> 
                     </ListItemIcon>
-                    <ListItemText primary="Perfil" sx={{ color: '#FFFFFF' }} />
+                    <ListItemText primary="Caixa" sx={{ color: 'white' }} />
                 </ListItem>
 
+                {/* Ícone e texto para Lote */}
                 <ListItem
                     button
                     sx={{
-                        marginBottom: '0.5rem',
-                        paddingLeft: '0.5rem',
+                        marginBottom: '1rem',
+                        paddingLeft: '1rem',
                     }}
-                    onClick={() => handleNavigation('/resumo')}
+                    onClick={() => handleNavigation('../../lotes/lotes_geral')}
                 >
                     <ListItemIcon sx={{ marginTop: '10px' }}>
-                        <AiOutlineFileText color="#FFFFFF" size={32} />
+                        <AiOutlineAppstore color="white" size={32} /> {/* Ícone de Lote */}
                     </ListItemIcon>
-                    <ListItemText primary="Resumo" sx={{ color: '#FFFFFF' }} />
+                    <ListItemText primary="Lotes" sx={{ color: 'white' }} />
                 </ListItem>
             </List>
         </Box>

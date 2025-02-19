@@ -22,6 +22,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import TabsComponent from '@/components/tabs';
 import ExpenseChart from '../../components/grafico_despesas';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 import { useRouter } from 'next/router';
 
@@ -38,97 +39,7 @@ const FornecedoresPage = () => {
   const router = useRouter();
   
 
-  useEffect(() => {
-    const fetchFornecedores = async () => {
-      try {
-        const response = await axios.get(BASE_URL);
-        setFornecedores(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar fornecedores:', error.message);
-      }
-    };
-    fetchFornecedores();
-  }, []);
-
-  const deleteFornecedora = async (id, values) => {
-    try {
-      const formData = new FormData();
-      formData.append(
-        "fornecedora",
-        JSON.stringify({
-          id,
-          nome: values.nome,
-          contato: values.contato,
-          endereco: values.endereco,
-          chavePix: values.chavePix,
-        })
-      );
-      const response = await axios.post(`${BASE_URL}/delete`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log('Fornecedor deletado com sucesso:', response.data);
-      setFornecedores((prev) => prev.filter((fornecedora) => fornecedora.id !== id));
-      alert('Fornecedor deletado com sucesso!');
-    } catch (error) {
-      console.error("Erro ao deletar fornecedor:", error);
-      alert('Erro ao deletar fornecedor.');
-    }
-  };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleNavigateToRegister = () => {
-    if (router) {
-      router.push('./cadastro_fornecedores');
-    }
-  };
-
-  const handleEditNavigation = (id) => {
-    router.push(`./editar_fornecedores?id=${id}`);
-  };
-
-  const handleNavigation = () => {
-    router.push('./visualizar_fornecedor');
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleExportToExcel = () => {
-    console.log('Exportando fornecedores:', fornecedores);
-
-    const headers = ['Nome', 'Contato', 'Endereço', 'Chave Pix'];
-
-    const dataForExport = fornecedores.length > 0
-      ? fornecedores.map((fornecedora) => ({
-          Nome: fornecedora.nome || 'N/A',
-          Contato: fornecedora.contato || 'N/A',
-          Endereço: fornecedora.endereco || 'N/A',
-          'Chave Pix': fornecedora.chavePix || 'N/A',
-        }))
-      : [{ Nome: 'N/A', Contato: 'N/A', Endereço: 'N/A', 'Chave Pix': 'N/A' }];
-
-    const sheetData = [headers, ...dataForExport.map(item => Object.values(item))];
-
-    const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Fornecedores');
-    XLSX.writeFile(workbook, 'fornecedores.xlsx');
-  };
-
-  const filteredFornecedores = fornecedores.filter((fornecedora) => {
-    return fornecedora.nome.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  
 
   return (
     <Box sx={{  display: 'flex',
@@ -146,7 +57,7 @@ const FornecedoresPage = () => {
           flex: 1,
           marginLeft: '290px',
           width: '500px',
-          height:'1900px', 
+          height:'2100px', 
         
           paddingTop: '3rem',
           overflowX: 'hidden',
@@ -161,43 +72,53 @@ const FornecedoresPage = () => {
         </Box>
 
       
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
-          <Card
-            sx={{
-              width: '40%',
-              padding: '20px',
-              backgroundColor: 'white',
-              boxShadow: 1,
-              borderRadius: '25px',
-              border: '2px solid #E0E0E0'
-            }}
-          >
-            <Typography variant="h6" sx={{ marginBottom: '2px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'blue'}}>
-              Econimazado 
-            </Typography>
-            <Typography variant="body1" sx={{ marginBottom: '2px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'blue'}}>
-              5.500
-            </Typography>
-          </Card>
-          <Card
-            sx={{
-              width: '40%',
-              padding: '40px',
-              backgroundColor: 'white',
-              boxShadow: 1,
-              borderRadius: '25px',
-              border: '2px solid #E0E0E0'
-              
-            }}
-          >
-            <Typography variant="h6" sx={{ marginBottom: '2px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'red'}}>
-               Gastos 
-            </Typography>
-            <Typography variant="body1"sx={{ marginBottom: '2px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'red'}}>
-              2.500
-            </Typography>
-          </Card>
-        </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+  <Card
+    sx={{
+      width: '40%',
+      padding: '20px',
+      backgroundColor: 'white',
+      boxShadow: 1,
+      borderRadius: '25px',
+      border: '2px solid #E0E0E0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center', // Centralizando o conteúdo do card
+      position: 'relative', // Para posicionar o ícone no canto direito
+    }}
+  >
+    <Typography variant="h6" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '10px' }}>
+      Maior Gasto
+    </Typography>
+    <Typography variant="body1" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '20px' }}>
+      15.500
+    </Typography>
+    <FilterListIcon sx={{ position: 'absolute', top: '20px', right: '20px', color: '#003366', fontSize: '50px' }} />
+  </Card>
+
+  <Card
+    sx={{
+      width: '40%',
+      padding: '30px',
+      backgroundColor: 'white',
+      boxShadow: 1,
+      borderRadius: '25px',
+      border: '2px solid #E0E0E0',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center', // Centralizando o conteúdo do card
+      position: 'relative', // Para posicionar o ícone no canto direito
+    }}
+  >
+    <Typography variant="h6" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '10px' }}>
+      Total Gastos
+    </Typography>
+    <Typography variant="body1" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '20px' }}>
+      27.500
+    </Typography>
+    <FilterListIcon sx={{ position: 'absolute', top: '20px', right: '20px', color: '#003366', fontSize: '50px' }} />
+  </Card>
+</Box>
 
         <Card
           sx={{
@@ -211,8 +132,8 @@ const FornecedoresPage = () => {
             marginTop: '50px',
           }}
         >
-          <Typography variant="h5" sx={{ marginBottom: '40px', fontWeight: 'bold',fontSize:'25px' }}>
-            Minhas Despesas
+          <Typography variant="h5" sx={{  marginTop: '20px',marginBottom: '40px', fontWeight: 'bold',fontSize:'38px' }}>
+              Despesas
           </Typography>
 
           <Box
@@ -227,9 +148,9 @@ const FornecedoresPage = () => {
         variant="outlined"
         size="small"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+     
         sx={{
-          width: '40%', // Diminuímos o comprimento da barra de pesquisa
+          width: '60%', // Diminuímos o comprimento da barra de pesquisa
           marginLeft: '100px', // Adicionamos o deslocamento para a direita
           '& .MuiOutlinedInput-root': {
             borderRadius: '25px',
@@ -271,80 +192,72 @@ const FornecedoresPage = () => {
                 border: '2px solid #333',
                 boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
                 fontWeight: 'normal',
-                fontSize: '15px',
+                fontSize: '20px',
                 borderRadius: '60px',
                 padding: '10px 0',
-                width: '170px',
-                height: '40px',
+                width: '300px',
+                height: '50px',
                 textTransform: 'none',
                 '&:hover': {
                   backgroundColor: '#f1f1f1',
                 },
                 marginRight: '90px',
               }}
-              onClick={handleNavigateToRegister}
+          
             >
               Cadastrar Despesas
             </Button>
           </Box>
 
           <TableContainer sx={{ maxHeight: 'calc(100vh - 250px)', width: '100%' }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <strong>Categoria</strong>
-                  </TableCell>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <strong>Data</strong>
-                  </TableCell>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <strong>Valor</strong>
-                  </TableCell>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>Ações</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredFornecedores
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((fornecedora) => (
-                    <TableRow key={fornecedora.id}>
-                      <TableCell>{fornecedora.nome}</TableCell>
-                      <TableCell>{fornecedora.contato}</TableCell>
-                      <TableCell>{fornecedora.endereco}</TableCell>
-                      <TableCell>{fornecedora.chavePix}</TableCell>
-                      <TableCell>
-                        <IconButton
-                          onClick={handleNavigation}
-                          sx={{ marginRight: 1, color: '#00509E' }}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleEditNavigation(fornecedora.id)}
-                          sx={{ marginRight: 1, color: '#00509E' }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => deleteFornecedora(fornecedora.id)}
-                          sx={{ color: '#00509E' }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
+  <Table>
+    <TableHead>
+      <TableRow>
+        <TableCell sx={{ padding: '12px 16px', textAlign: 'center', fontWeight: 'bold',  fontSize: '20px' }}>Categoria</TableCell>
+        <TableCell sx={{ padding: '12px 16px', textAlign: 'center', fontWeight: 'bold',  fontSize: '20px' }}>Data</TableCell>
+        <TableCell sx={{ padding: '12px 16px', textAlign: 'center', fontWeight: 'bold'  ,fontSize: '20px' }}>Valor</TableCell>
+        <TableCell sx={{ padding: '12px 16px', textAlign: 'center', fontWeight: 'bold',  fontSize: '20px' }}>Ações</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {[
+        { id: 1, nome: "Fornecedor A", contato: "1111-1111", endereco: "Rua 1, Cidade A", chavePix: "pix@a.com" },
+        { id: 2, nome: "Fornecedor B", contato: "2222-2222", endereco: "Rua 2, Cidade B", chavePix: "pix@b.com" },
+        { id: 3, nome: "Fornecedor C", contato: "3333-3333", endereco: "Rua 3, Cidade C", chavePix: "pix@c.com" },
+        { id: 4, nome: "Fornecedor D", contato: "4444-4444", endereco: "Rua 4, Cidade D", chavePix: "pix@d.com" },
+        { id: 5, nome: "Fornecedor E", contato: "5555-5555", endereco: "Rua 5, Cidade E", chavePix: "pix@e.com" },
+        { id: 6, nome: "Fornecedor F", contato: "6666-6666", endereco: "Rua 6, Cidade F", chavePix: "pix@f.com" },
+      ]
+        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+        .map((fornecedora) => (
+          <TableRow key={fornecedora.id}>
+            <TableCell sx={{ textAlign: 'center' }}>{fornecedora.nome}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>{fornecedora.contato}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>{fornecedora.endereco}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>{fornecedora.chavePix}</TableCell>
+            <TableCell sx={{ textAlign: 'center' }}>
+              <IconButton sx={{ marginRight: 1, color: "#00509E" }}>
+                <VisibilityIcon />
+              </IconButton>
+              <IconButton onClick={() => handleEditNavigation(fornecedora.id)} sx={{ marginRight: 1, color: "#00509E" }}>
+                <EditIcon />
+              </IconButton>
+              <IconButton onClick={() => deleteFornecedora(fornecedora.id)} sx={{ color: "#00509E" }}>
+                <DeleteIcon />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+        ))}
+    </TableBody>
+  </Table>
+</TableContainer>
           <TablePagination
             component="div"
-            count={filteredFornecedores.length}
+         
             page={page}
-            onPageChange={handleChangePage}
+          
             rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
+          
             rowsPerPageOptions={[5, 10, 25]}
           />
         </Card>
@@ -359,7 +272,7 @@ const FornecedoresPage = () => {
     marginTop: '50px',
   }}
 >
-  <Typography variant="h5" sx={{ marginBottom: '20px', fontWeight: 'bold',fontSize:'25px' }}>
+  <Typography variant="h5" sx={{ marginTop: '20px', marginBottom: '40px', fontWeight: 'bold',fontSize:'38px' }}>
     Gráfico de Despesas
   </Typography>
   <ExpenseChart />
