@@ -46,7 +46,6 @@ const FornecedoresPage = () => {
    
       minHeight: '100vh', // Garante que o contêiner ocupe no mínimo a altura da tela
       width: '100%', // Garante que ocupe a largura inteira
-       // Borda vermelha para debug
       margin: 0,
       padding: 0, // Remova qualquer padding ou margem
       overflow: 'hidden', }}>
@@ -58,7 +57,6 @@ const FornecedoresPage = () => {
           marginLeft: '290px',
           width: '500px',
           height:'2100px', 
-        
           paddingTop: '3rem',
           overflowX: 'hidden',
           overflowY: 'hidden',
@@ -67,12 +65,12 @@ const FornecedoresPage = () => {
           
         }}
       >
-        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px', overflowX: 'hidden', }}>
-          <TabsComponent />
+        <Box sx={{ position: 'relative', marginTop: '10px', overflowX: 'hidden', marginBottom:'70px'  }}>
+          <TabsComponent sx={{ backgroundColor:'#F5F5F5',}} />
         </Box>
 
       
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
   <Card
     sx={{
       width: '40%',
@@ -99,7 +97,7 @@ const FornecedoresPage = () => {
   <Card
     sx={{
       width: '40%',
-      padding: '30px',
+      padding: '20px',
       backgroundColor: 'white',
       boxShadow: 1,
       borderRadius: '25px',
@@ -126,7 +124,7 @@ const FornecedoresPage = () => {
             bgcolor: 'white',
             boxShadow: 1,
             borderRadius: '25px',
-            width: '96%',
+            width: '97%',
             margin: '0 auto',
             border: '2px solid #E0E0E0',
             marginTop: '50px',
@@ -209,7 +207,7 @@ const FornecedoresPage = () => {
             </Button>
           </Box>
 
-          <TableContainer sx={{ maxHeight: 'calc(100vh - 250px)', width: '100%' }}>
+          <TableContainer sx={{ maxHeight: 'calc(100vh - 250px)', width: '100%', }}>
   <Table>
     <TableHead>
       <TableRow>
@@ -272,7 +270,7 @@ const FornecedoresPage = () => {
     marginTop: '50px',
   }}
 >
-  <Typography variant="h5" sx={{ marginTop: '20px', marginBottom: '40px', fontWeight: 'bold',fontSize:'38px' }}>
+  <Typography variant="h5" sx={{ marginTop: '20px', marginBottom: '40px', fontWeight: 'bold',fontSize:'38px', }}>
     Gráfico de Despesas
   </Typography>
   <ExpenseChart />

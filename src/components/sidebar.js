@@ -84,10 +84,7 @@ export default function Sidebar() {
                     }}
                     onClick={() => handleNavigation('../../lotes/lotes_geral')}
                 >
-                    <ListItemIcon sx={{ marginTop: '10px' }}>
-                        <AiOutlineAppstore color="white" size={32} /> {/* Ícone de Lote */}
-                    </ListItemIcon>
-                    <ListItemText primary="Lotes" sx={{ color: 'white' }} />
+                   
                 </ListItem>
             </List>
         </Box>

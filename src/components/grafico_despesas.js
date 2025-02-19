@@ -74,7 +74,7 @@ const ExpenseChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "50%", height: "38px" }}>
+        <FormControl sx={{ width: "50%", height: "60px" }}>
           <Select
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -135,11 +135,11 @@ const ExpenseChart = () => {
             border: '2px solid #333',
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
             fontWeight: 'normal',
-            fontSize: '15px',
+            fontSize: '20px',
             borderRadius: '60px',
             padding: '10px 0',
-            width: '230px',
-            height: '50px',
+            width: '300px',
+            height: '40px',
             textTransform: 'none',
             '&:hover': {
               backgroundColor: '#f1f1f1',

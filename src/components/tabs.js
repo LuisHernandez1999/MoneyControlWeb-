@@ -69,7 +69,7 @@ const TabsComponent = () => {
     backgroundColor: 'black',
     opacity: 0.5,
 
-    marginTop: '1.5rem',
+    marginTop: '3rem',
         }}
       />
     </div>
