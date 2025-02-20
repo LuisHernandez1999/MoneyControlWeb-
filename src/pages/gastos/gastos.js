@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PieChart, Pie, Cell, Legend,} from 'recharts';
 import {
   Box,
   Card,
@@ -19,10 +20,10 @@ import Sidebar from '../../components/sidebar';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+
 import TabsComponent from '@/components/tabs';
 import ExpenseChart from '../../components/grafico_despesas';
-import FilterListIcon from '@mui/icons-material/FilterList';
+
 
 import { useRouter } from 'next/router';
 
@@ -37,17 +38,33 @@ const FornecedoresPage = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search, setSearch] = useState('');
   const router = useRouter();
+  const [isClient, setIsClient] = useState(false);
+  
   
 
-  
+const data = [
+  { name: 'Categoria 1', value: 15.500 },
+  { name: 'Categoria 2', value: 5000 },
+  { name: 'Categoria 3', value: 2500 },
+];
 
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
+
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
   return (
     <Box sx={{  display: 'flex',
    
-      minHeight: '100vh', // Garante que o contêiner ocupe no mínimo a altura da tela
-      width: '100%', // Garante que ocupe a largura inteira
+      minHeight: '100vh', 
+      width: '100%',
       margin: 0,
-      padding: 0, // Remova qualquer padding ou margem
+      padding: 0, 
       overflow: 'hidden', }}>
       <Sidebar />
       <Box
@@ -56,7 +73,7 @@ const FornecedoresPage = () => {
           flex: 1,
           marginLeft: '290px',
           width: '500px',
-          height:'2100px', 
+          height:'2800px', 
           paddingTop: '3rem',
           overflowX: 'hidden',
           overflowY: 'hidden',
@@ -69,62 +86,302 @@ const FornecedoresPage = () => {
           <TabsComponent sx={{ backgroundColor:'#F5F5F5',}} />
         </Box>
 
+        <Box
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '20px',
+    boxShadow: 3,
+    padding: '20px',
+    width: '85%',
+    marginLeft: '90px',
+    borderRadius: '25px',
+    border: '2px solid #E0E0E0',
+    backgroundColor: 'white',
+    height: '800px',
+  }}
+>
+  <Typography
+    variant="h4"
+    sx={{
+      fontWeight: 'bold',
+      fontSize: '38px',
+      marginTop: '20px',
+      marginBottom: '60px',
+      color: 'black',
+    }}
+  >
+    Visão Geral de Despesas
+  </Typography>
+
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'row', 
+      gap: '20px', 
+    }}
+  >
+  
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '70px',
+      }}
+    >
+      <Card
+        sx={{
+          width: '390px',
+          height:'190px',
+          padding: '17px',
+          backgroundColor: 'white',
+          boxShadow: 3,
+          marginLeft: '99px',
+          borderRadius: '35px',
+          border: '2px solid #E0E0E0',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: '35px',
+            fontWeight: 'bold',
+            color: 'black',
+            marginBottom: '30px',
+          }}
+        >
+          Maior Gasto
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: '35px',
+            fontWeight: 'bold',
+            color: 'grey',
+            marginBottom: '15px',
+          }}
+        >
+          15.500
+        </Typography>
+       
+      </Card>
+
+      <Card
+        sx={{
+          width: '390px',
+          padding: '17px',
+          height:'190px',
+          backgroundColor: 'white',
+          marginLeft: '99px',
+          boxShadow: 3,
+          borderRadius: '35px',
+          border: '2px solid #E0E0E0',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
+        <Typography
+          variant="h6"
+          sx={{
+            fontSize: '35px',
+            fontWeight: 'bold',
+            color: 'black',
+            marginBottom: '30px',
+          }}
+        >
+          Total Gastos
+        </Typography>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: '35px',
+            fontWeight: 'bold',
+            color: 'grey',
+            marginBottom: '15px',
+          }}
+        >
+          27.500
+        </Typography>
+       
+      </Card>
+    </Box>
+
+    {/* Tabela com os 3 maiores gastos */}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: 'white',
+        borderRadius: '10px',
+        boxShadow: 1,
+        marginLeft:'180px',
+        padding: '15px',
+        width: '480px',
+        height: '200px',
+        border: '2px solid #E0E0E0',
+        overflowY: 'auto',
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{
+          fontSize: '18px',
+          fontWeight: 'bold',
+          color: 'black',
+          marginLeft:'150px',
+          marginBottom: '15px',
+        }}
+      >
+         Maiores Gastos
+      </Typography>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr
+            style={{
+              backgroundColor: '#F5F5F5',
+              borderBottom: '2px solid #E0E0E0',
+            }}
+          >
+            <th
+              style={{
+                fontWeight: 'bold',
+                textAlign: 'left',
+                padding: '10px 0',
+                color: '#003366',
+              }}
+            >
+              Nome
+            </th>
+            <th
+              style={{
+                fontWeight: 'bold',
+                textAlign: 'left',
+                padding: '10px 0',
+                color: '#003366',
+              }}
+            >
+              Valor
+            </th>
+            <th
+              style={{
+                fontWeight: 'bold',
+                textAlign: 'left',
+                padding: '10px 0',
+                color: '#003366',
+              }}
+            >
+              Categoria
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            style={{
+              borderBottom: '1px solid #E0E0E0',
+            }}
+          >
+            <td style={{ padding: '10px 0' }}>Gasto A</td>
+            <td style={{ padding: '10px 0' }}>15.500</td>
+            <td style={{ padding: '10px 0' }}>Categoria 1</td>
+          </tr>
+          <tr
+            style={{
+              borderBottom: '1px solid #E0E0E0',
+            }}
+          >
+            <td style={{ padding: '10px 0' }}>Gasto B</td>
+            <td style={{ padding: '10px 0' }}>5.000</td>
+            <td style={{ padding: '10px 0' }}>Categoria 2</td>
+          </tr>
+          <tr>
+            <td style={{ padding: '10px 0' }}>Gasto C</td>
+            <td style={{ padding: '10px 0' }}>2.500</td>
+            <td style={{ padding: '10px 0' }}>Categoria 3</td>
+          </tr>
+        </tbody>
+      </table>
+    </Box>
+  </Box>
+  <Box
+  sx={{
+    display: 'flex',
+    flexDirection: 'column',
+    marginTop: '-48px',
+    boxShadow: 3,
+    padding: '20px',
+    width: '35%',
+    marginLeft: '722px',
+    borderRadius: '25px',
+    border: '2px solid #E0E0E0',
+    backgroundColor: 'white',
+    height: '320px',
+    marginTop: '-230px',
+    textAlign: 'center', // Centraliza o título
+    justifyContent: 'flex-start', // Ajuste para que o conteúdo ocupe o espaço necessário
+  }}
+>
+  {/* Título */}
+  <Typography
+    variant="h6"
+    sx={{
+      fontSize: '20px',
+      fontWeight: 'bold',
+      color: 'black',
+      marginBottom: '15px',
+      marginTop: '15px', // Espaço superior
+    }}
+  >
+    Porcentagem de Gastos
+  </Typography>
+
+  {/* Gráfico de Pizza */}
+  <Box
+    sx={{
+      display: 'flex',
+      justifyContent: 'center', // Centraliza o gráfico horizontalmente
+      alignItems: 'center', // Centraliza o gráfico verticalmente
+      height: '120px', // Altura ajustada para melhor centralização do gráfico
+    }}
+  >
+    <PieChart width={200} height={230}>
+      <Pie
+        data={data}
+        cx="50%"
+        cy="50%"
       
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
-  <Card
-    sx={{
-      width: '40%',
-      padding: '20px',
-      backgroundColor: 'white',
-      boxShadow: 1,
-      borderRadius: '25px',
-      border: '2px solid #E0E0E0',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center', // Centralizando o conteúdo do card
-      position: 'relative', // Para posicionar o ícone no canto direito
-    }}
-  >
-    <Typography variant="h6" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '10px' }}>
-      Maior Gasto
-    </Typography>
-    <Typography variant="body1" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '20px' }}>
-      15.500
-    </Typography>
-    <FilterListIcon sx={{ position: 'absolute', top: '20px', right: '20px', color: '#003366', fontSize: '50px' }} />
-  </Card>
-
-  <Card
-    sx={{
-      width: '40%',
-      padding: '20px',
-      backgroundColor: 'white',
-      boxShadow: 1,
-      borderRadius: '25px',
-      border: '2px solid #E0E0E0',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center', // Centralizando o conteúdo do card
-      position: 'relative', // Para posicionar o ícone no canto direito
-    }}
-  >
-    <Typography variant="h6" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '10px' }}>
-      Total Gastos
-    </Typography>
-    <Typography variant="body1" sx={{ fontSize: '40px', fontWeight: 'bold', color: 'black', marginBottom: '20px' }}>
-      27.500
-    </Typography>
-    <FilterListIcon sx={{ position: 'absolute', top: '20px', right: '20px', color: '#003366', fontSize: '50px' }} />
-  </Card>
+        outerRadius={90} // Ajusta o tamanho
+        fill="#8884d8"
+        dataKey="value"
+        labelLine={false} // Remove as linhas do gráfico
+      >
+        {data.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+      <Legend
+        iconSize={12}
+        layout="horizontal" // Alinha a legenda horizontalmente
+        verticalAlign="top" // Coloca a legenda logo abaixo do gráfico
+        align="center"
+        wrapperStyle={{ paddingTop: '0px', marginTop: '238px' }} // Ajuste de margens para diminuir o espaço
+      />
+    </PieChart>
+  </Box>
 </Box>
-
+</Box>
         <Card
           sx={{
             padding: '20px',
             bgcolor: 'white',
-            boxShadow: 1,
+            boxShadow: 3,
             borderRadius: '25px',
-            width: '97%',
+            width: '85%',
             margin: '0 auto',
             border: '2px solid #E0E0E0',
             marginTop: '50px',
@@ -151,7 +408,7 @@ const FornecedoresPage = () => {
           width: '60%', // Diminuímos o comprimento da barra de pesquisa
           marginLeft: '100px', // Adicionamos o deslocamento para a direita
           '& .MuiOutlinedInput-root': {
-            borderRadius: '25px',
+            borderRadius: '14px',
             backgroundColor: '#FFFFFF',
             color: '#000000',
             '& fieldset': {
@@ -163,7 +420,7 @@ const FornecedoresPage = () => {
             '&.Mui-focused fieldset': {
               borderColor: 'black',
             },
-            boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+            boxShadow: 3,
           },
           '& .MuiInputBase-input': {
             color: '#000000',
@@ -188,7 +445,7 @@ const FornecedoresPage = () => {
                 backgroundColor: 'black',
                 color: 'white',
                 border: '2px solid #333',
-                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
+                boxShadow: 3,
                 fontWeight: 'normal',
                 fontSize: '20px',
                 borderRadius: '60px',
@@ -263,7 +520,9 @@ const FornecedoresPage = () => {
   sx={{
     padding: '20px',
     backgroundColor: 'white',
-    boxShadow: 1,
+    boxShadow: 3,
+    width: '85%',
+    marginLeft:'102px',
     
     borderRadius: '25px',
     border: '2px solid #E0E0E0',

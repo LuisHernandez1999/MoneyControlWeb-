@@ -45,12 +45,13 @@ const EarningsChart = () => {
       {/* Filtros para categoria, data e valor */}
       <Box
         sx={{
+          boxShadow: 3,
           display: "flex",
           justifyContent: "space-between",
           marginBottom: "20px",
         }}
       >
-        <FormControl sx={{ width: "22%", height: "38px" }}>
+        <FormControl sx={{ width: "22%", height: "38px",boxShadow: 3 }}>
           <Select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
@@ -65,7 +66,7 @@ const EarningsChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "22%", height: "38px" }}>
+        <FormControl sx={{ width: "22%", height: "38px" ,boxShadow: 3}}>
           <Select
             value={date}
             onChange={(e) => setDate(e.target.value)}
@@ -79,7 +80,7 @@ const EarningsChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "22%", height: "38px" }}>
+        <FormControl sx={{ width: "22%", height: "38px",boxShadow: 3 }}>
           <Select
             value={value}
             onChange={(e) => setValue(e.target.value)}
@@ -105,6 +106,7 @@ const EarningsChart = () => {
             fontWeight: 'normal',
             fontSize: '15px',  // Fundo preto
             color: "white",
+            boxShadow: 3,
           // Fonte mais fina
             letterSpacing: "1px",  // Espaçamento entre letras
             border: "1px solid #333",  // Borda sutil

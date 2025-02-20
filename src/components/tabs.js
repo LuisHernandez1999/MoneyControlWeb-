@@ -27,7 +27,7 @@ const TabsComponent = () => {
           onClick={() => handleTabClick('gastos')}
           style={{
             cursor: 'pointer',
-            color: selectedTab === 'gastos' ? 'blue' : 'black',
+            color: selectedTab === 'gastos' ? '#333' : 'grey',
             fontSize: '50px',
             fontWeight: 'bold',
           }}
@@ -39,7 +39,7 @@ const TabsComponent = () => {
           onClick={() => handleTabClick('ganhos')}
           style={{
             cursor: 'pointer',
-            color: selectedTab === 'ganhos' ? 'blue' : 'black',
+            color: selectedTab === 'ganhos' ? '#333' : 'grey',
             fontSize: '50px',
             fontWeight: 'bold',
           }}
@@ -51,7 +51,7 @@ const TabsComponent = () => {
           onClick={() => handleTabClick('geral')}
           style={{
             cursor: 'pointer',
-            color: selectedTab === 'geral' ? 'blue' : 'black',
+            color: selectedTab === 'geral' ? '#333' : 'grey',
             fontSize: '50px',
             fontWeight: 'bold',
           }}
@@ -66,7 +66,7 @@ const TabsComponent = () => {
     width: '100%', 
     overflow: 'hidden',
     height: '1px',
-    backgroundColor: 'black',
+    backgroundColor: 'grey',
     opacity: 0.5,
 
     marginTop: '3rem',

@@ -13,7 +13,7 @@ const ExpenseChart = () => {
   }, []);
 
   if (!isClient) {
-    return null; 
+    return null;
   }
 
   const data = [
@@ -24,10 +24,10 @@ const ExpenseChart = () => {
   ];
 
   const categoryColors = {
-    Alimentação: "#0088FE", 
-    Transporte: "#FF0000",  
-    Lazer: "#00C49F",      
-    Saúde: "#FF8042",       
+    Alimentação: "#0088FE",
+    Transporte: "#FF0000",
+    Lazer: "#00C49F",
+    Saúde: "#FF8042",
   };
 
   return (
@@ -46,14 +46,14 @@ const ExpenseChart = () => {
           gap: "40px", // Ajuste do espaçamento entre os filtros e o botão
         }}
       >
-        <FormControl sx={{ width: "50%", height: "38px" }}>
+        <FormControl sx={{ width: "50%", height: "70px" }}>
           <Select
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             displayEmpty
             sx={{
-              height: "35px",
-              borderRadius: '25px',
+              height: "50px",
+              borderRadius: '14px',
               border: '2px solid black',  // Aplica a borda preta
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none', // Remove o campo de borda adicional
@@ -74,14 +74,14 @@ const ExpenseChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "50%", height: "60px" }}>
+        <FormControl sx={{ width: "50%", height: "70px" }}>
           <Select
             value={date}
             onChange={(e) => setDate(e.target.value)}
             displayEmpty
             sx={{
-              height: "35px",
-              borderRadius: '25px',
+              height: "50px",
+              borderRadius: '14px',
               border: '2px solid black',  // Aplica a borda preta
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none', // Remove o campo de borda adicional
@@ -101,14 +101,14 @@ const ExpenseChart = () => {
           </Select>
         </FormControl>
 
-        <FormControl sx={{ width: "50%", height: "50px" }}>
+        <FormControl sx={{ width: "50%", height: "70px" }}>
           <Select
             value={value}
             onChange={(e) => setValue(e.target.value)}
             displayEmpty
             sx={{
-              height: "35px",
-              borderRadius: '25px',
+              height: "50px",
+              borderRadius: '14px',
               border: '2px solid black',  // Aplica a borda preta
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none', // Remove o campo de borda adicional
@@ -139,7 +139,7 @@ const ExpenseChart = () => {
             borderRadius: '60px',
             padding: '10px 0',
             width: '300px',
-            height: '40px',
+            height: '50px',
             textTransform: 'none',
             '&:hover': {
               backgroundColor: '#f1f1f1',
@@ -159,7 +159,7 @@ const ExpenseChart = () => {
       >
         <BarChart
           width={1100}
-          height={600}
+          height={650} // Ajustado para aumentar o tamanho do gráfico
           data={data}
           margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
         >
@@ -169,7 +169,7 @@ const ExpenseChart = () => {
           <Tooltip />
           <Legend verticalAlign="bottom" align="center" />
 
-          <Bar dataKey="value" barSize={40}>
+          <Bar dataKey="value" barSize={50}> {/* Aumentando o tamanho da barra */}
             {data.map((entry) => (
               <Cell
                 key={entry.name}
