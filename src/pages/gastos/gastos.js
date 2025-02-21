@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { PieChart, Pie, Cell, Legend,} from 'recharts';
+
 import {
   Box,
   Card,
@@ -12,6 +12,7 @@ import {
   TableRow,
   IconButton,
   TextField,
+  CircularProgress,
   Button,
   TablePagination,
   InputAdornment,
@@ -88,32 +89,10 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
         <Box
   sx={{
-    display: 'flex',
-    flexDirection: 'column',
-    marginTop: '20px',
-    boxShadow: 3,
-    padding: '20px',
-    width: '85%',
-    marginLeft: '90px',
-    borderRadius: '25px',
-    border: '2px solid #E0E0E0',
-    backgroundColor: 'white',
-    height: '800px',
+   
   }}
 >
-  <Typography
-    variant="h4"
-    sx={{
-      fontWeight: 'bold',
-      fontSize: '38px',
-      marginTop: '20px',
-      marginBottom: '60px',
-      color: 'black',
-    }}
-  >
-    Visão Geral de Despesas
-  </Typography>
-
+ 
   <Box
     sx={{
       display: 'flex',
@@ -131,14 +110,14 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
     >
       <Card
         sx={{
-          width: '390px',
-          height:'190px',
+          width: '540px',
           padding: '17px',
-          backgroundColor: 'white',
-          boxShadow: 3,
+          height:'150px',
+          backgroundColor: '#ADD8E6',
+          boxShadow: 4,
           marginLeft: '99px',
-          borderRadius: '35px',
-          border: '2px solid #E0E0E0',
+          borderRadius: '50px',
+          border: '2px solidrgb(255, 255, 255)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -150,36 +129,36 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
           sx={{
             fontSize: '35px',
             fontWeight: 'bold',
-            color: 'black',
+            color: '#4682B4',  
             marginBottom: '30px',
           }}
         >
-          Maior Gasto
+         Quantidade de Despesas
         </Typography>
         <Typography
           variant="body1"
           sx={{
             fontSize: '35px',
             fontWeight: 'bold',
-            color: 'grey',
+            color: '#4A6C89', 
             marginBottom: '15px',
           }}
         >
-          15.500
+          470
         </Typography>
        
       </Card>
 
       <Card
         sx={{
-          width: '390px',
+          width: '540px',
           padding: '17px',
-          height:'190px',
-          backgroundColor: 'white',
+          height:'150px',
+          backgroundColor: '#F7D0D0', 
           marginLeft: '99px',
-          boxShadow: 3,
-          borderRadius: '35px',
-          border: '2px solid #E0E0E0',
+          boxShadow: 4,
+          borderRadius: '50px',
+          border: '2px solidrgb(255, 255, 255)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -191,188 +170,128 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
           sx={{
             fontSize: '35px',
             fontWeight: 'bold',
-            color: 'black',
+            color: '#7F3D3D',  
             marginBottom: '30px',
           }}
         >
-          Total Gastos
+          Valor Total de Despesas
         </Typography>
         <Typography
           variant="body1"
           sx={{
             fontSize: '35px',
             fontWeight: 'bold',
-            color: 'grey',
+            color: '#9F5B5B',  
             marginBottom: '15px',
           }}
         >
-          27.500
+           27.500
         </Typography>
        
       </Card>
     </Box>
 
-    {/* Tabela com os 3 maiores gastos */}
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'white',
-        borderRadius: '10px',
-        boxShadow: 1,
-        marginLeft:'180px',
-        padding: '15px',
-        width: '480px',
-        height: '200px',
-        border: '2px solid #E0E0E0',
-        overflowY: 'auto',
-      }}
-    >
-      <Typography
-        variant="h6"
-        sx={{
-          fontSize: '18px',
-          fontWeight: 'bold',
-          color: 'black',
-          marginLeft:'150px',
-          marginBottom: '15px',
-        }}
-      >
-         Maiores Gastos
-      </Typography>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr
-            style={{
-              backgroundColor: '#F5F5F5',
-              borderBottom: '2px solid #E0E0E0',
-            }}
-          >
-            <th
-              style={{
-                fontWeight: 'bold',
-                textAlign: 'left',
-                padding: '10px 0',
-                color: '#003366',
-              }}
-            >
-              Nome
-            </th>
-            <th
-              style={{
-                fontWeight: 'bold',
-                textAlign: 'left',
-                padding: '10px 0',
-                color: '#003366',
-              }}
-            >
-              Valor
-            </th>
-            <th
-              style={{
-                fontWeight: 'bold',
-                textAlign: 'left',
-                padding: '10px 0',
-                color: '#003366',
-              }}
-            >
-              Categoria
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            style={{
-              borderBottom: '1px solid #E0E0E0',
-            }}
-          >
-            <td style={{ padding: '10px 0' }}>Gasto A</td>
-            <td style={{ padding: '10px 0' }}>15.500</td>
-            <td style={{ padding: '10px 0' }}>Categoria 1</td>
-          </tr>
-          <tr
-            style={{
-              borderBottom: '1px solid #E0E0E0',
-            }}
-          >
-            <td style={{ padding: '10px 0' }}>Gasto B</td>
-            <td style={{ padding: '10px 0' }}>5.000</td>
-            <td style={{ padding: '10px 0' }}>Categoria 2</td>
-          </tr>
-          <tr>
-            <td style={{ padding: '10px 0' }}>Gasto C</td>
-            <td style={{ padding: '10px 0' }}>2.500</td>
-            <td style={{ padding: '10px 0' }}>Categoria 3</td>
-          </tr>
-        </tbody>
-      </table>
-    </Box>
+   
+   
   </Box>
   <Box
   sx={{
     display: 'flex',
     flexDirection: 'column',
-    marginTop: '-48px',
+    position: 'absolute',  
+    top: '300px',  
+    left: '1240px',
     boxShadow: 3,
     padding: '20px',
-    width: '35%',
-    marginLeft: '722px',
-    borderRadius: '25px',
+    width: '30%',
+    borderRadius: '50px',
     border: '2px solid #E0E0E0',
     backgroundColor: 'white',
-    height: '320px',
-    marginTop: '-230px',
-    textAlign: 'center', // Centraliza o título
-    justifyContent: 'flex-start', // Ajuste para que o conteúdo ocupe o espaço necessário
+    height: '460px',
+    textAlign: 'center', 
+    justifyContent: 'flex-start',  
   }}
 >
-  {/* Título */}
+ 
   <Typography
     variant="h6"
     sx={{
-      fontSize: '20px',
+      fontSize: '38px',
       fontWeight: 'bold',
-      color: 'black',
-      marginBottom: '15px',
-      marginTop: '15px', // Espaço superior
+      color: 'grey',  
+      marginBottom: '15px', 
     }}
   >
-    Porcentagem de Gastos
+    Despesas a Pagar
   </Typography>
-
-  {/* Gráfico de Pizza */}
   <Box
+  sx={{
+    
+    position: 'absolute',  
+    top: '104px', 
+    left: '50%',  
+    transform: 'translateX(-50%)',  
+  }}
+>
+  <CircularProgress
+    variant="determinate"
+    value={77} 
+    size={270} 
+    thickness={4}
     sx={{
-      display: 'flex',
-      justifyContent: 'center', // Centraliza o gráfico horizontalmente
-      alignItems: 'center', // Centraliza o gráfico verticalmente
-      height: '120px', // Altura ajustada para melhor centralização do gráfico
+      
+      color: '#81C784',
+        
+    }}
+  />
+  <Typography
+    sx={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      fontSize: '24px',
+      fontWeight: 'bold',
+      color: '#4682B4',  
+      fontSize:'38px',
     }}
   >
-    <PieChart width={200} height={230}>
-      <Pie
-        data={data}
-        cx="50%"
-        cy="50%"
-      
-        outerRadius={90} // Ajusta o tamanho
-        fill="#8884d8"
-        dataKey="value"
-        labelLine={false} // Remove as linhas do gráfico
-      >
-        {data.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Legend
-        iconSize={12}
-        layout="horizontal" // Alinha a legenda horizontalmente
-        verticalAlign="top" // Coloca a legenda logo abaixo do gráfico
-        align="center"
-        wrapperStyle={{ paddingTop: '0px', marginTop: '238px' }} // Ajuste de margens para diminuir o espaço
-      />
-    </PieChart>
-  </Box>
+    82%
+  </Typography>
+</Box>
+<Box
+  sx={{
+    position: 'absolute',
+    top: '400px',  
+    left: '50%', 
+    transform: 'translateX(-50%)',
+    width: '80%', 
+    textAlign: 'center', 
+  }}
+>
+  
+ 
+
+ 
+  <Typography
+  sx={{
+   
+    fontSize: '17px',
+    color: 'grey',  
+    fontFamily: '"Roboto", sans-serif',  
+    fontWeight: 'bold',  
+    lineHeight: 1.6, 
+    
+  }}
+>
+  As despesas não pagas respresentam uma porcentagem de  <span style={{ color: '#81C784' }}>82%</span> do total, 
+  o que equivale a <span style={{ color: '#D32F2F' }}>500</span> despesas. 
+  Em termos financeiros, isso representa um valor de 
+  <span style={{ color: '#9C27B0' }}>22.777</span>.
+</Typography>
+</Box>
+
+
 </Box>
 </Box>
         <Card
@@ -380,15 +299,16 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
             padding: '20px',
             bgcolor: 'white',
             boxShadow: 3,
-            borderRadius: '25px',
-            width: '85%',
-            margin: '0 auto',
+            borderRadius: '50px',
+            width: '50%',
+            marginLeft: '100px',
             border: '2px solid #E0E0E0',
-            marginTop: '50px',
+            marginTop: '80px',
+            
           }}
         >
-          <Typography variant="h5" sx={{  marginTop: '20px',marginBottom: '40px', fontWeight: 'bold',fontSize:'38px' }}>
-              Despesas
+          <Typography variant="h5" sx={{color:'grey',marginTop: '20px',marginBottom: '40px', fontWeight: 'bold',fontSize:'38px',    textAlign: 'center',  }}>
+            Controle de despesas
           </Typography>
 
           <Box
@@ -405,14 +325,14 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
         value={search}
      
         sx={{
-          width: '60%', // Diminuímos o comprimento da barra de pesquisa
-          marginLeft: '100px', // Adicionamos o deslocamento para a direita
+          width: '60%',
+          marginLeft: '40px', 
           '& .MuiOutlinedInput-root': {
             borderRadius: '14px',
             backgroundColor: '#FFFFFF',
             color: '#000000',
             '& fieldset': {
-              border: '2px solid #333',  // Borda preta
+              border: '2px solid #333', 
             },
             '&:hover fieldset': {
               borderColor: 'black',
@@ -450,17 +370,17 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
                 fontSize: '20px',
                 borderRadius: '60px',
                 padding: '10px 0',
-                width: '300px',
+                width: '150px',
                 height: '50px',
                 textTransform: 'none',
                 '&:hover': {
                   backgroundColor: '#f1f1f1',
                 },
-                marginRight: '90px',
+                marginRight: '30px',
               }}
           
             >
-              Cadastrar Despesas
+              Adicionar
             </Button>
           </Box>
 
@@ -519,17 +439,108 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
         <Card
   sx={{
     padding: '20px',
+    bgcolor: 'white',
+    boxShadow: 3,
+    position: 'absolute',
+    borderRadius: '50px',
+    width: '27%',
+    height: '600px',
+    marginLeft: '1004px',
+    border: '2px solid #E0E0E0',
+    marginTop: '-670px',
+  }}
+>
+  <Typography
+    variant="h5"
+    sx={{
+      textAlign: 'center',
+      fontWeight: 'bold',
+      fontSize: '38px',
+      marginTop: '20px',
+      marginBottom: '4px',
+      color:'grey',
+    }}
+  >
+     Despesas por Categoria 
+  </Typography>
+
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '20px',
+      marginTop: '102px',
+    }}
+  >
+   
+    <Box
+      sx={{
+        width: '80%',
+        textAlign: 'center',
+        backgroundColor: '#E0F7FA', 
+        padding: '15px',
+        borderRadius: '50px',
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: 'bold', color: '#00796B' }} 
+      >
+        40%
+      </Typography>
+      <Typography>Categoria 1</Typography>
+    </Box>
+    <Box
+      sx={{
+        width: '80%',
+        textAlign: 'center',
+        backgroundColor: '#FFECB3', 
+        padding: '15px',
+        borderRadius: '50px',
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: 'bold', color: '#FF5722' }} 
+      >
+        30%
+      </Typography>
+      <Typography>Categoria 2</Typography>
+    </Box>
+    <Box
+      sx={{
+        width: '80%',
+        textAlign: 'center',
+        backgroundColor: '#FFE0B2', 
+        padding: '15px',
+        borderRadius: '50px',
+      }}
+    >
+      <Typography
+        variant="h6"
+        sx={{ fontWeight: 'bold', color: '#FF9800' }} 
+      >
+        20%
+      </Typography>
+      <Typography>Categoria 3</Typography>
+    </Box>
+  </Box>
+</Card>
+        
+        <Card
+  sx={{
+    padding: '20px',
     backgroundColor: 'white',
     boxShadow: 3,
-    width: '85%',
+    width: '89%',
     marginLeft:'102px',
-    
     borderRadius: '25px',
     border: '2px solid #E0E0E0',
     marginTop: '50px',
   }}
 >
-  <Typography variant="h5" sx={{ marginTop: '20px', marginBottom: '40px', fontWeight: 'bold',fontSize:'38px', }}>
+  <Typography variant="h5" sx={{ marginTop: '20px', marginBottom: '40px', fontWeight: 'bold',fontSize:'38px',  color:'grey', }}>
     Gráfico de Despesas
   </Typography>
   <ExpenseChart />

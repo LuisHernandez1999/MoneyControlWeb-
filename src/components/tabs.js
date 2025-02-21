@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/router'; // Importando useRouter do Next.js
 
 const TabsComponent = () => {
-  const [selectedTab, setSelectedTab] = useState('gastos');
+  const [selectedTab, setSelectedTab] = useState('despesas');
   const router = useRouter(); 
 
   const handleTabClick = (tab) => {
@@ -24,27 +24,27 @@ const TabsComponent = () => {
         }}
       >
         <div
-          onClick={() => handleTabClick('gastos')}
+          onClick={() => handleTabClick('Despesas')}
           style={{
             cursor: 'pointer',
-            color: selectedTab === 'gastos' ? '#333' : 'grey',
+            color: selectedTab === 'Despesas' ? '#333' : 'grey',
             fontSize: '50px',
             fontWeight: 'bold',
           }}
         >
-          Gastos
+          Despesas
         </div>
 
         <div
           onClick={() => handleTabClick('ganhos')}
           style={{
             cursor: 'pointer',
-            color: selectedTab === 'ganhos' ? '#333' : 'grey',
+            color: selectedTab === 'Receitas' ? '#333' : 'grey',
             fontSize: '50px',
             fontWeight: 'bold',
           }}
         >
-          Ganhos
+          Receitas
         </div>
 
         <div
