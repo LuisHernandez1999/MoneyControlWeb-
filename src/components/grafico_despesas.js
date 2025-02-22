@@ -33,9 +33,10 @@ const ExpenseChart = () => {
   return (
     <Box
       sx={{
-        width: "80%",
+        width: "100%",
         margin: "0 auto",
         marginTop: "50px",
+        height: "700px"
       }}
     >
       <Box

@@ -13,8 +13,8 @@ export default function Sidebar() {
     return (
         <Box
             sx={{
-                width: '300px',
-                height: '100vh',
+                width: '250px',
+                height:'2800px', 
                 backgroundColor: '#3E5C76',
                 color: '#FFFFFF',
                 display: 'flex',
@@ -106,38 +106,14 @@ export default function Sidebar() {
                 </ListItem>
 
                 {/* Novo ícone e link para Pesquisa */}
-                <ListItem
-                    button
-                    sx={{
-                        marginBottom: '1rem',
-                        paddingLeft: '1rem',
-                    }}
-                    onClick={() => handleNavigation('/Pesquisa')}
-                >
-                    <ListItemIcon sx={{ marginTop: '10px' }}>
-                        <AiOutlineFileSearch color="white" size={32} />
-                    </ListItemIcon>
-                    <ListItemText primary="Pesquisa" sx={{ color: 'white' }} />
-                </ListItem>
+              
 
                 {/* Novo ícone e link para Aplicativos */}
-                <ListItem
-                    button
-                    sx={{
-                        marginBottom: '1rem',
-                        paddingLeft: '1rem',
-                    }}
-                    onClick={() => handleNavigation('/Aplicativos')}
-                >
-                    <ListItemIcon sx={{ marginTop: '10px' }}>
-                        <AiOutlineAppstore color="white" size={32} /> {/* Ícone de Aplicativos */}
-                    </ListItemIcon>
-                    <ListItemText primary="Aplicativos" sx={{ color: 'white' }} />
-                </ListItem>
+               
             </List>
 
             {/* Linha separadora */}
-            <Divider sx={{ marginTop:'-40px', backgroundColor: 'WHITE' }} />
+          
 
             {/* Ícone de logout */}
             <ListItem
