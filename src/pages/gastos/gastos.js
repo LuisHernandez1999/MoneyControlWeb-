@@ -20,6 +20,7 @@ import {
   Fade,
   Grow,
   Button,
+  CircularProgress
 } from "@mui/material"
 import {
   SearchOutlined as SearchOutlinedIcon,
@@ -218,28 +219,11 @@ export default function DashboardPage() {
         <Fade in={true} timeout={3000}>
           <Card
             sx={{
-              padding: "20px",
-              bgcolor: theme.palette.background.paper,
-              boxShadow: theme.shadows[3],
-              borderRadius: "30px",
-              border: `2px solid ${theme.palette.divider}`,
-              marginTop: "50px",
-              height: "auto",
+             
             }}
           >
-            <Typography
-              variant="h5"
-              sx={{
-                marginTop: "20px",
-                marginBottom: "40px",
-                fontWeight: "bold",
-                fontSize: "38px",
-                color: theme.palette.text.secondary,
-              }}
-            >
-              Armazenamento  de Extratos
-            </Typography>
-            <StatementIssuanceTable />
+            
+            
           </Card>
         </Fade>
       </Box>
@@ -273,11 +257,21 @@ function ExpenseControlCard({ search, setSearch, page, rowsPerPage, handleChange
         borderRadius: "16px",
         boxShadow: theme.shadows[3],
         height: "auto",
+        width: "96%",
       }}
     >
-      <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, color: theme.palette.text.primary }}>
-        Controle de Despesas
-      </Typography>
+      <Typography
+              variant="h6"
+              sx={{
+                marginTop: "20px",
+                marginBottom: "40px",
+                fontWeight: "bold",
+                fontSize: "38px",
+                color: theme.palette.text.secondary,
+              }}
+            >
+              Controle de Despesas
+            </Typography>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
         <TextField
           label="Pesquisar Despesa"
@@ -464,8 +458,8 @@ function DashboardCard({ title, value, backgroundColor, titleColor, valueColor }
 )
 }
 
-function UnpaidExpensesCard() {
-  const theme = useTheme()
+function UnpaidExpensesCard({ percentage = 30 }) {
+  const theme = useTheme();
 
   return (
     <Card
@@ -476,22 +470,50 @@ function UnpaidExpensesCard() {
         boxShadow: theme.shadows[3],
         width: { xs: "100%", lg: "50%" },
         height: "auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, color: theme.palette.text.primary }}>
         Despesas Não Pagas
       </Typography>
-      <Box sx={{ height: "200px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
-          Nenhuma despesa não paga pendente.
-        </Typography>
+
+      <Box sx={{ position: "relative", display: "inline-flex", mb: 2 }}>
+        <CircularProgress
+          variant="determinate"
+          value={percentage}
+          size={80}
+          thickness={6}
+          sx={{ color: theme.palette.error.main }}
+        />
+        <Box
+          sx={{
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold", color: theme.palette.text.primary }}>
+            {percentage}%
+          </Typography>
+        </Box>
       </Box>
+
+      <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
+       
+      </Typography>
     </Card>
-  )
+  );
 }
 
-function ExpenseCategoriesCard() {
-  const theme = useTheme()
+function ExpenseCategoriesCard({ percentage = 70 }) {
+  const theme = useTheme();
 
   return (
     <Card
@@ -499,20 +521,56 @@ function ExpenseCategoriesCard() {
         p: 3,
         bgcolor: theme.palette.background.paper,
         borderRadius: "16px",
-        boxShadow: theme.shadows[3],
+        boxShadow: theme.shadows[5],
         width: { xs: "100%", lg: "50%" },
         height: "auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        "&:hover": {
+          transform: "scale(1.05)",
+          boxShadow: theme.shadows[6],
+        },
       }}
     >
       <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, color: theme.palette.text.primary }}>
-        Despesas pagas
+        Despesas Pagas
       </Typography>
-      <Box sx={{ height: "200px", display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <Typography variant="body1" sx={{ color: theme.palette.text.secondary }}>
-          Nenhuma categoria de despesa disponível.
-        </Typography>
+
+      <Box sx={{ position: "relative", display: "inline-flex", mb: 2 }}>
+        <CircularProgress
+          variant="determinate"
+          value={percentage}
+          size={90}
+          thickness={8}
+          sx={{
+            color: percentage < 50 ? theme.palette.error.main : theme.palette.success.main,
+            transition: "color 0.3s ease",
+          }}
+        />
+        <Box
+          sx={{
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0,
+            position: "absolute",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h6" sx={{ fontWeight: "bold", color: theme.palette.text.primary }}>
+            {percentage}%
+          </Typography>
+        </Box>
       </Box>
+
+      <Typography variant="body1" sx={{ color: theme.palette.text.secondary, textAlign: "center" }}>
+    
+      </Typography>
     </Card>
-  )
+  );
 }
 

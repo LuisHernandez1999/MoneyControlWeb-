@@ -1,352 +1,432 @@
-import React, { useState, useEffect } from 'react';
+"use client"
+
+import React from "react"
 import {
   Box,
   Card,
   Typography,
+  TextField,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
-  IconButton,
-  TextField,
-  Button,
   TablePagination,
+  IconButton,
   InputAdornment,
-} from '@mui/material';
-import Sidebar from '../../components/sidebar';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+  useTheme,
+  useMediaQuery,
+  Fade,
+  Grow,
+  Button,
+} from "@mui/material"
+import {
+  SearchOutlined as SearchOutlinedIcon,
+  Visibility as VisibilityIcon,
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Add as AddIcon,
+} from "@mui/icons-material"
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Legend,
+  Tooltip,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+} from "recharts"
+import Sidebar from "../../components/sidebar"
+import TabsComponent from "@/components/tabs"
 
-import TabsComponent from '@/components/tabs';
-import  EarningsChart from '../../components/grafico_rendas';
+const COLORS = ["#4CAF50", "#8BC34A", "#CDDC39", "#FFEB3B"]
 
-import { useRouter } from 'next/router';
+const earningsData = [
+  { name: "Salário", value: 5000 },
+  { name: "Freelance", value: 1500 },
+  { name: "Investimentos", value: 800 },
+  { name: "Outros", value: 300 },
+]
 
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+const monthlyEarnings = [
+  { month: "Jan", value: 6000 },
+  { month: "Fev", value: 5800 },
+  { month: "Mar", value: 7200 },
+  { month: "Abr", value: 6500 },
+  { month: "Mai", value: 7600 },
+  { month: "Jun", value: 7000 },
+]
 
-const BASE_URL = 'http://localhost:8080/api/fornecedoras';
+export default function EarningsDashboardPage() {
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
+  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"))
+  const isLaptop = useMediaQuery(theme.breakpoints.between("md", "lg"))
 
-const FornecedoresPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [fornecedores, setFornecedores] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [search, setSearch] = useState('');
-  const router = useRouter();
-  
-  
-  useEffect(() => {
-    const fetchFornecedores = async () => {
-      try {
-        const response = await axios.get(BASE_URL);
-        setFornecedores(response.data);
-      } catch (error) {
-        console.error('Erro ao buscar fornecedores:', error.message);
-      }
-    };
-    fetchFornecedores();
-  }, []);
-
-  const deleteFornecedora = async (id, values) => {
-    try {
-      const formData = new FormData();
-      formData.append(
-        "fornecedora",
-        JSON.stringify({
-          id,
-          nome: values.nome,
-          contato: values.contato,
-          endereco: values.endereco,
-          chavePix: values.chavePix,
-        })
-      );
-      const response = await axios.post(`${BASE_URL}/delete`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log('Fornecedor deletado com sucesso:', response.data);
-      setFornecedores((prev) => prev.filter((fornecedora) => fornecedora.id !== id));
-      alert('Fornecedor deletado com sucesso!');
-    } catch (error) {
-      console.error("Erro ao deletar fornecedor:", error);
-      alert('Erro ao deletar fornecedor.');
-    }
-  };
-
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleNavigateToRegister = () => {
-    if (router) {
-      router.push('./cadastro_fornecedores');
-    }
-  };
-
-  const handleEditNavigation = (id) => {
-    router.push(`./editar_fornecedores?id=${id}`);
-  };
-
-  const handleNavigation = () => {
-    router.push('./visualizar_fornecedor');
-  };
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(5)
+  const [search, setSearch] = React.useState("")
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
+    setPage(newPage)
+  }
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleExportToExcel = () => {
-    console.log('Exportando fornecedores:', fornecedores);
-
-    const headers = ['Nome', 'Contato', 'Endereço', 'Chave Pix'];
-
-    const dataForExport = fornecedores.length > 0
-      ? fornecedores.map((fornecedora) => ({
-          Nome: fornecedora.nome || 'N/A',
-          Contato: fornecedora.contato || 'N/A',
-          Endereço: fornecedora.endereco || 'N/A',
-          'Chave Pix': fornecedora.chavePix || 'N/A',
-        }))
-      : [{ Nome: 'N/A', Contato: 'N/A', Endereço: 'N/A', 'Chave Pix': 'N/A' }];
-
-    const sheetData = [headers, ...dataForExport.map(item => Object.values(item))];
-
-    const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Fornecedores');
-    XLSX.writeFile(workbook, 'fornecedores.xlsx');
-  };
-
-  const filteredFornecedores = fornecedores.filter((fornecedora) => {
-    return fornecedora.nome.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+    setRowsPerPage(Number.parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   return (
-    <Box sx={{ display: 'flex', minHeight: '100vh', }}>
+    <Box sx={{ display: "flex", minHeight: "100vh", width: "100%", margin: 0, padding: 0, overflow: "hidden" }}>
       <Sidebar />
       <Box
         sx={{
           flex: 1,
-          marginLeft: '290px',
-          maxHeight: '200vh',
-          height:'2200px', 
-         
-          paddingTop: '3rem',
-          
+          marginLeft: { xs: 0, sm: "290px" },
+          width: "100%",
+          height: "auto",
+          paddingTop: "3rem",
+          overflowX: "hidden",
+          overflowY: "auto",
+          backgroundColor: theme.palette.background.default,
         }}
       >
-        <Box sx={{ position: 'relative', top: '-38px', marginBottom: '0.1px',}}>
-          <TabsComponent />
+        <Box sx={{ position: "relative", marginTop: "10px", marginBottom: "30px" }}>
+          <TabsComponent sx={{ backgroundColor: theme.palette.background.paper }} />
         </Box>
 
-      
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', }}>
-          <Card
-            sx={{
-              width: '40%',
-              padding: '20px',
-              backgroundColor: 'white',
-              boxShadow: 1,
-              borderRadius: '25px',
-              border: '2px solid #E0E0E0'
-            }}
-          >
-            <Typography variant="h6" sx={{ marginBottom: '2px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'blue'}}>
-              Econimazado 
-            </Typography>
-            <Typography variant="body1" sx={{ marginBottom: '2px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'blue'}}>
-              5.500
-            </Typography>
-          </Card>
-          <Card
-            sx={{
-              width: '40%',
-              padding: '20px',
-              backgroundColor: 'white',
-              boxShadow: 1,
-              borderRadius: '25px',
-              border: '2px solid #E0E0E0'
-              
-            }}
-          >
-            <Typography variant="h6" sx={{ marginBottom: '8px', fontSize:'30px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex', color:'#1DB954'}}>
-               Ganhos
-            </Typography>
-            <Typography variant="body1"sx={{ marginBottom: '8px', fontSize:'29px',fontWeight: 'bold',alignItems: 'center', justifyContent: 'center', display: 'flex',color:'#1DB954'}}>
-              3.500
-            </Typography>
-          </Card>
-        </Box>
-
-        <Card
-          sx={{
-            padding: '20px',
-            bgcolor: 'white',
-            boxShadow: 1,
-            borderRadius: '25px',
-            width: '95%',
-            margin: '0 auto',
-            border: '2px solid #E0E0E0',
-            marginTop: '50px',
-          }}
-        >
-          <Typography variant="h5" sx={{ marginBottom: '40px', fontWeight: 'bold',fontSize:'25px' }}>
-            Minhas Ganhos
-          </Typography>
-
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', }}>
-            <TextField
-              label="Pesquisar ganhos"
-              variant="outlined"
-              size="small"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              sx={{
-                width: '50%',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '25px',
-                  backgroundColor: '#FFFFFF',
-                  color: '#000000',
-                  '& fieldset': {
-                    borderColor: '#CCCCCC',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: '#00509E',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#00509E',
-                  },
-                  boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                },
-                '& .MuiInputBase-input': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root': {
-                  color: '#000000',
-                },
-                '& .MuiInputLabel-root.Mui-focused': {
-                  color: '#00509E',
-                },
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchOutlinedIcon sx={{ color: 'green' }} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Button
-              sx={{
-                backgroundColor: 'black',
-                color: 'white',
-                border: '2px solid #333',
-                boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-                fontWeight: 'normal',
-                fontSize: '15px',
-                borderRadius: '60px',
-                padding: '10px 0',
-                width: '170px',
-                height: '40px',
-                textTransform: 'none',
-                '&:hover': {
-                  backgroundColor: '#f1f1f1',
-                },
-              }}
-              onClick={handleNavigateToRegister}
-            >
-              Cadastrar Ganho
-            </Button>
+        <Fade in={true} timeout={1000}>
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" }, gap: "20px", padding: "0 20px" }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: "20px", width: { xs: "100%", lg: "50%" } }}>
+              <DashboardCard
+                title="Quantidade de Ganhos"
+                value="320"
+                backgroundColor="#E8F5E9"
+                titleColor="#2E7D32"
+                valueColor="#1B5E20"
+              />
+              <DashboardCard
+                title="Valor Total de Ganhos"
+                value="42.800"
+                backgroundColor="#F1F8E9"
+                titleColor="#558B2F"
+                valueColor="#33691E"
+              />
+            </Box>
+            <Box sx={{ width: { xs: "100%", lg: "50%" }, height: { xs: "300px", md: "400px" } }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={earningsData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    outerRadius={isMobile ? 80 : isTablet ? 100 : 120}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {earningsData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                  <Legend
+                    layout={isMobile ? "horizontal" : "vertical"}
+                    align={isMobile ? "center" : "right"}
+                    verticalAlign={isMobile ? "bottom" : "middle"}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </Box>
           </Box>
+        </Fade>
 
-          <TableContainer sx={{ maxHeight: 'calc(100vh - 250px)', width: '100%' }}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <strong>Categoria</strong>
-                  </TableCell>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <strong>Data</strong>
-                  </TableCell>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>
-                    <strong>Valor</strong>
-                  </TableCell>
-                  <TableCell sx={{ padding: '12px 16px', textAlign: 'center' }}>Ações</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {filteredFornecedores
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((fornecedora) => (
-                    <TableRow key={fornecedora.id}>
-                      <TableCell>{fornecedora.nome}</TableCell>
-                      <TableCell>{fornecedora.contato}</TableCell>
-                      <TableCell>{fornecedora.endereco}</TableCell>
-                      <TableCell>{fornecedora.chavePix}</TableCell>
-                      <TableCell>
-                        <IconButton
-                          onClick={handleNavigation}
-                          sx={{ marginRight: 1, color: '#00509E' }}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleEditNavigation(fornecedora.id)}
-                          sx={{ marginRight: 1, color: '#00509E' }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          onClick={() => deleteFornecedora(fornecedora.id)}
-                          sx={{ color: '#00509E' }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <TablePagination
-            component="div"
-            count={filteredFornecedores.length}
-            page={page}
-            onPageChange={handleChangePage}
-            rowsPerPage={rowsPerPage}
-            onRowsPerPageChange={handleChangeRowsPerPage}
-            rowsPerPageOptions={[5, 10, 25]}
-          />
-        </Card>
-        <Card
-  sx={{
-    padding: '20px',
-    backgroundColor: 'white',
-    boxShadow: 1,
-    
-    borderRadius: '25px',
-    border: '2px solid #E0E0E0',
-    marginTop: '50px',
-  }}
->
-  <Typography variant="h5" sx={{ marginBottom: '20px', fontWeight: 'bold',fontSize:'25px' }}>
-    Gráfico de Ganhos
-  </Typography>
-  < EarningsChart />
-</Card>
+        <Grow in={true} timeout={1500}>
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", lg: "row" }, gap: "20px", padding: "20px" }}>
+            <MonthlyEarningsCard />
+            <EarningsCategoriesCard />
+          </Box>
+        </Grow>
+
+        <Fade in={true} timeout={2000}>
+          <Box>
+            <EarningsControlCard
+              search={search}
+              setSearch={setSearch}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              handleChangePage={handleChangePage}
+              handleChangeRowsPerPage={handleChangeRowsPerPage}
+            />
+          </Box>
+        </Fade>
+
+        <Fade in={true} timeout={2500}>
+          <Card
+            sx={{
+              padding: "20px",
+              bgcolor: theme.palette.background.paper,
+              boxShadow: theme.shadows[3],
+              borderRadius: "30px",
+              border: `2px solid ${theme.palette.divider}`,
+              marginTop: "50px",
+              height: "auto",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{
+                marginTop: "20px",
+                marginBottom: "40px",
+                fontWeight: "bold",
+                fontSize: "38px",
+                color: theme.palette.text.secondary,
+              }}
+            >
+              Gráfico de Ganhos
+            </Typography>
+            <Box sx={{ height: { xs: "400px", md: "600px" } }}>
+              <EarningsChart />
+            </Box>
+          </Card>
+        </Fade>
       </Box>
     </Box>
-  );
-};
+  )
+}
 
-export default FornecedoresPage;
+function DashboardCard({ title, value, backgroundColor, titleColor, valueColor }) {
+  const theme = useTheme()
+
+  return (
+    <Card
+      sx={{
+        p: 3,
+        bgcolor: backgroundColor,
+        borderRadius: "16px",
+        boxShadow: theme.shadows[2],
+        height: "150px",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        textAlign: "center",
+      }}
+    >
+      <Typography
+        variant="subtitle2"
+        sx={{
+          color: titleColor,
+          fontWeight: "bold",
+          fontSize: "22px",
+          marginBottom: "8px",
+        }}
+      >
+        {title}
+      </Typography>
+      <Typography
+        variant="h5"
+        sx={{
+          color: valueColor,
+          fontWeight: "bold",
+          fontSize: "40px",
+        }}
+      >
+        {value}
+      </Typography>
+    </Card>
+  )
+}
+
+function MonthlyEarningsCard() {
+  const theme = useTheme()
+
+  return (
+    <Card
+      sx={{
+        p: 3,
+        bgcolor: theme.palette.background.paper,
+        borderRadius: "16px",
+        boxShadow: theme.shadows[3],
+        width: { xs: "100%", lg: "50%" },
+        height: "auto",
+      }}
+    >
+      <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, color: theme.palette.text.primary }}>
+        Ganhos Mensais
+      </Typography>
+      <Box sx={{ height: "200px" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={monthlyEarnings}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="month" />
+            <YAxis />
+            <Tooltip />
+            <Bar dataKey="value" fill="#4CAF50" />
+          </BarChart>
+        </ResponsiveContainer>
+      </Box>
+    </Card>
+  )
+}
+
+function EarningsCategoriesCard() {
+  const theme = useTheme()
+
+  return (
+    <Card
+      sx={{
+        p: 3,
+        bgcolor: theme.palette.background.paper,
+        borderRadius: "16px",
+        boxShadow: theme.shadows[3],
+        width: { xs: "100%", lg: "50%" },
+        height: "auto",
+      }}
+    >
+      <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, color: theme.palette.text.primary }}>
+        Categorias de Ganhos
+      </Typography>
+      <Box sx={{ height: "200px" }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie data={earningsData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" dataKey="value">
+              {earningsData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </ResponsiveContainer>
+      </Box>
+    </Card>
+  )
+}
+
+function EarningsControlCard({ search, setSearch, page, rowsPerPage, handleChangePage, handleChangeRowsPerPage }) {
+  const theme = useTheme()
+
+  const earnings = [
+    { id: 1, description: "Salário", category: "Fixo", date: "2023-05-01", value: 5000 },
+    { id: 2, description: "Freelance Design", category: "Variável", date: "2023-05-10", value: 800 },
+    { id: 3, description: "Dividendos", category: "Investimentos", date: "2023-05-15", value: 300 },
+    { id: 4, description: "Venda de Produto", category: "Variável", date: "2023-05-20", value: 500 },
+    { id: 5, description: "Aluguel", category: "Fixo", date: "2023-05-25", value: 1000 },
+    { id: 6, description: "Consultoria", category: "Variável", date: "2023-05-28", value: 700 },
+  ]
+
+  const filteredEarnings = earnings.filter((earning) =>
+    earning.description.toLowerCase().includes(search.toLowerCase()),
+  )
+
+  return (
+    <Card
+      sx={{
+        p: 3,
+        bgcolor: theme.palette.background.paper,
+        borderRadius: "16px",
+        boxShadow: theme.shadows[3],
+        height: "auto",
+        width: "96%",
+      }}
+    >
+      <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2, color: theme.palette.text.primary }}>
+        Controle de Ganhos
+      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+        <TextField
+          label="Pesquisar Ganho"
+          variant="outlined"
+          size="small"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+          sx={{ width: "60%" }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          startIcon={<AddIcon />}
+          sx={{
+            borderRadius: "20px",
+            textTransform: "none",
+            fontWeight: "bold",
+          }}
+        >
+          Adicionar Ganho
+        </Button>
+      </Box>
+      <TableContainer sx={{ maxHeight: "calc(100vh - 350px)" }}>
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: "bold" }}>Descrição</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Categoria</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Data</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Valor</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Ações</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredEarnings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((earning) => (
+              <TableRow key={earning.id}>
+                <TableCell>{earning.description}</TableCell>
+                <TableCell>{earning.category}</TableCell>
+                <TableCell>{earning.date}</TableCell>
+                <TableCell>R$ {earning.value.toFixed(2)}</TableCell>
+                <TableCell>
+                  <IconButton sx={{ color: theme.palette.info.main }}>
+                    <VisibilityIcon />
+                  </IconButton>
+                  <IconButton sx={{ color: theme.palette.warning.main }}>
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton sx={{ color: theme.palette.error.main }}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={filteredEarnings.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
+    </Card>
+  )
+}
+
+function EarningsChart() {
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart data={monthlyEarnings}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="month" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey="value" fill="#4CAF50" />
+      </BarChart>
+    </ResponsiveContainer>
+  )
+}
+

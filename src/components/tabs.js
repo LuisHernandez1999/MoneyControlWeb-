@@ -4,10 +4,11 @@ import { useState, useEffect } from "react"
 import { useRouter } from "next/router"
 
 const TabsComponent = () => {
-  const [selectedTab, setSelectedTab] = useState("despesas")
+  const [selectedTab, setSelectedTab] = useState("")
   const [windowWidth, setWindowWidth] = useState(0)
   const router = useRouter()
 
+  // Atualiza a largura da janela
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
     window.addEventListener("resize", handleResize)
@@ -15,9 +16,25 @@ const TabsComponent = () => {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
+  // Atualiza a aba selecionada com base na URL ao inicializar
+  useEffect(() => {
+    const path = router.asPath.split("/")[1] // Pega a primeira parte da URL
+    if (path) {
+      setSelectedTab(path) // Atualiza o estado com a aba da URL
+    }
+  }, [router.asPath]) // Sempre que a URL mudar, atualiza a aba selecionada
+
   const handleTabClick = (tab) => {
-    setSelectedTab(tab.toLowerCase())
-    router.push(`/${tab.toLowerCase()}`)
+    const tabLowerCase = tab.toLowerCase()
+    setSelectedTab(tabLowerCase) // Atualiza a aba selecionada
+    // Atualiza a navegação para a página correta
+    if (tab === "Receitas") {
+      router.push("/ganhos/ganhos")
+    } else if (tab === "Despesas") {
+      router.push("/gastos/gastos") // Roteia para "Despesas" ou "Gastos"
+    } else {
+      router.push(`/${tabLowerCase}`)
+    }
   }
 
   const tabs = ["Despesas", "Receitas", "Geral"]
@@ -65,7 +82,11 @@ const TabsComponent = () => {
     <div style={containerStyle}>
       <div style={tabsContainerStyle}>
         {tabs.map((tab) => (
-          <div key={tab} onClick={() => handleTabClick(tab)} style={tabStyle(tab)}>
+          <div
+            key={tab}
+            onClick={() => handleTabClick(tab)}
+            style={tabStyle(tab)} // Estilo atualizado com base na aba selecionada
+          >
             {tab}
           </div>
         ))}
@@ -76,4 +97,3 @@ const TabsComponent = () => {
 }
 
 export default TabsComponent
-
